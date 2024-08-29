@@ -1,11 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit"
 import { UserApi } from "../../Api/UserApi/UserApi"
+import { act } from "react"
 
 const initialState = {
     user: null,
     status: "idle",
     error: null,
-    feedback: ""
+    feedback: "",
+    accessToken: null
 
 }
 
@@ -25,6 +27,21 @@ const UserSlice = createSlice({
         builder.addMatcher(UserApi.endpoints.userSignup.matchRejected,(state,action)=>{
             state.status = 'failed'
             state.error = action.payload
+        })
+        builder.addMatcher(UserApi.endpoints.userSignin.matchPending,(state,action)=>{
+             state.status = 'loading'
+            
+        })
+        builder.addMatcher(UserApi.endpoints.userSignin.matchFulfilled,(state,action)=>{
+            state.status = 'successful'
+            state.user = action.payload.user
+            state.accessToken = action.payload.accessToken
+            
+        })
+        builder.addMatcher(UserApi.endpoints.userSignin.matchRejected,(state,action)=>{
+            state.status = 'failed'
+            
+            
         })
     }
 })

@@ -5,7 +5,7 @@ import RightPanel from './RightPanel'
 
 const Layout = () => {
   return (
-    <main className='flex gap-x-3 w-full p-4'>
+    <main className='flex gap-x-3 w-full'>
         <Sidebar/>
         <Outlet/>
         <RightPanel/>

@@ -3,12 +3,14 @@ import { Button, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaMeetup } from "react-icons/fa";
-import { useUserSignupMutation } from "../../Redux/Api/UserApi/UserApi";
+import { useUserSigninMutation } from "../../Redux/Api/UserApi/UserApi";
 const SignIn = () => {
   const [form] = Form.useForm();
   
+  const [userSignin, { isLoading, isSuccess, isError, error }] =
+  useUserSigninMutation();
   const onFinish = async (values) => {
-    
+    await userSignin(values).unwrap()
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
@@ -19,16 +21,16 @@ const SignIn = () => {
             Welcome back
           </p>
         </div>
-        <div className="flex flex-row-reverse w-full">
-          <div className="bg-[#9ce0f0] w-[30%] flex flex-col gap-y-[30px] justify-center items-center rounded-[20px]">
+        <div className="flex flex-wrap sm:flex-nowrap w-full">
+          <div className="bg-[#9ce0f0] w-full sm:w-[40%] min-w-[250px] flex flex-col gap-y-[30px] justify-center items-center rounded-[20px]">
             <h3 className="roboto-bold text-[white] text-[20px] md:text-[2.1rem] text-center">
               Are you new here?
             </h3>
-            <Link to="/" className="hover:underline text-[19px]">
+            <Link to="/register" className="hover:underline text-[19px]">
               Sign Up
             </Link>
           </div>
-          <div className="w-[65%] p-[15px]">
+          <div className=" w-full sm:w-[65%] p-[15px]">
             <Form layout="vertical" onFinish={onFinish}>
               <div>
                 <Form.Item
@@ -48,7 +50,7 @@ const SignIn = () => {
               <div>
                 <Form.Item
                   label="Password"
-                  name={"Password"}
+                  name={"password"}
                   rules={[
                     {
                       required: true,
@@ -63,7 +65,7 @@ const SignIn = () => {
               </div>
               <div>
                 <Form.Item>
-                  <Button>Sign-IN</Button>
+                  <Button htmlType="submit">Sign-IN</Button>
                 </Form.Item>
               </div>
             </Form>

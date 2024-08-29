@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, message, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
@@ -48,7 +48,7 @@ const SignUp = () => {
             <h3 className="roboto-bold text-[white] text-[20px] md:text-[2.1rem] text-center">
               Has an Account?
             </h3>
-            <Link to="/register" className="hover:underline text-[19px]">
+            <Link to="/" className="hover:underline text-[19px]">
               Sign in
             </Link>
           </div>
@@ -167,7 +167,7 @@ const SignUp = () => {
               </div>
               <div className="flex justify-center items-center">
                 <Form.Item>
-                  <Button htmlType="submit" className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white">SignUp</Button>
+                  <Button htmlType="submit" className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white">{isLoading ?<p> siginning in<Spin/></p>: "SignUp" }</Button>
                 </Form.Item>
               </div>
             </Form>

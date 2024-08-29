@@ -10,8 +10,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
                 method: 'POST',
                 body: values
             })
-        })
+        }),
+        userSignin : builder.mutation({
+            query : (values)=> ({
+                url: "/login",
+                method: 'POST',
+                body: values
+            })
+        }),
     })
  })
 
- export const {useUserSignupMutation} = UserApi
+ export const {useUserSignupMutation, useUserSigninMutation} = UserApi
