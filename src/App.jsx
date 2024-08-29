@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Feeds from "./components/Pages/Feeds"
 import SignIn from './components/Pages/SignIn'
 import SignUp from './components/Pages/SignUp'
+import Dashboard from './components/Pages/Dashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +16,7 @@ function App() {
         <Route path='/register' element={<SignUp/>}/>
         <Route path='/user' element = {<Layout/>}>
           <Route index element={<Feeds/>}/>
+          <Route path='/user/dashbord' element={<Dashboard/>}/>
         </Route>
       </Routes>
       

@@ -12,7 +12,7 @@ const Profile = () => {
             <h3 className='text-center roboto-bold text-[20px]'>Okoro Amara</h3>
             <p className='text-center roboto-thin-italic text-[15px] text-gray-300'>@ammybabay</p>
         </div>
-        <NavLink className="roboto-thin-italic  ">
+        <NavLink className="roboto-thin-italic  " to={"/user/dashbord"}>
             <p className='text-center'>View profile</p>
         </NavLink>
     </div>
