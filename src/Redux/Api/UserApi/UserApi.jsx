@@ -1,8 +1,25 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
+
+const getToken = () => {
+    const token = Cookies.get("token");
+    return token ? JSON.parse(token) : null;
+  };
 
  export const UserApi = createApi({
     reducerPath: "UserApi",
-    baseQuery: fetchBaseQuery({baseUrl:'http://localhost:3000/api/user'}),
+    baseQuery: fetchBaseQuery({
+        baseUrl:'http://localhost:3000/api/user',
+        prepareHeaders: (headers) => {
+            const token = getToken();
+            if (token) {
+              headers.set("Authorization", `Bearer ${token}`);
+            }
+            return headers;
+          },
+        
+    }),
     endpoints:(builder)=>({
         userSignup : builder.mutation({
             query : (values)=> ({
@@ -18,7 +35,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
                 body: values
             })
         }),
+        userProfilePicUpload : builder.mutation({
+            query: (value)=>({
+                url: "/profilepicupload",
+                method: "POST",
+                body: value
+            }
+            
+            )
+
+        })
     })
  })
 
- export const {useUserSignupMutation, useUserSigninMutation} = UserApi
+ export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation} = UserApi

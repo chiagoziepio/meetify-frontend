@@ -1,16 +1,21 @@
 import React from "react";
-import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaMeetup } from "react-icons/fa";
 import { useUserSigninMutation } from "../../Redux/Api/UserApi/UserApi";
 const SignIn = () => {
+  const navigate = useNavigate()
   const [form] = Form.useForm();
   
   const [userSignin, { isLoading, isSuccess, isError, error }] =
   useUserSigninMutation();
   const onFinish = async (values) => {
-    await userSignin(values).unwrap()
+    await userSignin(values).unwrap().then(result => {
+      console.log(result)
+      message.success(result.msg)
+      navigate("/user")
+    })
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
