@@ -38,7 +38,7 @@ const UserSlice = createSlice({
         builder.addMatcher(UserApi.endpoints.userSignin.matchFulfilled,(state,action)=>{
             state.status = 'successful'
             state.user = action.payload.user
-            state.token = action.payload.user.token,
+            state.token = action.payload.token,
             Cookies.set("token",JSON.stringify(state.token), {expires: exprirein})
             
             
@@ -53,13 +53,31 @@ const UserSlice = createSlice({
         })
         builder.addMatcher(UserApi.endpoints.userProfilePicUpload.matchFulfilled,(state,action)=>{
             state.status = "successful",
-            state.user.profilePic = action.payload.url
+            state.user = action.payload.user
+            console.log(action.payload.user);
             
             
         })
         builder.addMatcher(UserApi.endpoints.userProfilePicUpload.matchRejected,(state,action)=>{
-            state.status = "loading",
-            state.error = action.payload
+            state.status = "failed",
+            state.error = action.payload.msg
+            
+            
+        })
+        builder.addMatcher(UserApi.endpoints.userBackgroundPicUpload.matchPending,(state,action)=>{
+            state.status = "loading"
+            
+            
+        })
+        builder.addMatcher(UserApi.endpoints.userBackgroundPicUpload.matchFulfilled,(state,action)=>{
+            state.status = "successfull",
+            state.user = action.payload.user
+            
+            
+        })
+        builder.addMatcher(UserApi.endpoints.userBackgroundPicUpload.matchRejected,(state,action)=>{
+            state.status = "failed",
+            state.error = action.payload.msg
             
             
         })

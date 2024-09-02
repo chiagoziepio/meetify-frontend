@@ -40,12 +40,16 @@ const getToken = () => {
                 url: "/profilepicupload",
                 method: "POST",
                 body: value
-            }
-            
-            )
-
-        })
+            })
+        }),
+        userBackgroundPicUpload : builder.mutation({
+            query: (value)=>({
+                url: "/backgroundpicupload",
+                method: "POST",
+                body: value
+            })
+        }),
     })
  })
 
- export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation} = UserApi
+ export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation, useUserBackgroundPicUploadMutation} = UserApi
