@@ -12,9 +12,8 @@ const SignIn = () => {
   useUserSigninMutation();
   const onFinish = async (values) => {
     await userSignin(values).unwrap().then(result => {
-      console.log(result)
       message.success(result.msg)
-      navigate("/user")
+      navigate("/user/feeds")
     })
   };
   return (

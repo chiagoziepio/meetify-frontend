@@ -49,7 +49,14 @@ const getToken = () => {
                 body: value
             })
         }),
+        userLogout : builder.mutation({
+            query: ()=>({
+                url: "/logout",
+                method: "POST"
+            
+            })
+        }),
     })
  })
 
- export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation, useUserBackgroundPicUploadMutation} = UserApi
+ export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation, useUserBackgroundPicUploadMutation, useUserLogoutMutation} = UserApi

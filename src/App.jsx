@@ -5,9 +5,10 @@ import Feeds from "./components/Pages/Feeds"
 import SignIn from './components/Pages/SignIn'
 import SignUp from './components/Pages/SignUp'
 import Dashboard from './components/Pages/Dashboard'
-
+import Settings from './components/Pages/Settings'
+import Friends from './components/Pages/Friends'
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <div className='flex-grow flex'>
@@ -15,8 +16,10 @@ function App() {
         <Route index element = {<SignIn/>}/>
         <Route path='/register' element={<SignUp/>}/>
         <Route path='/user' element = {<Layout/>}>
-          <Route index element={<Feeds/>}/>
-          <Route path='/user/dashbord' element={<Dashboard/>}/>
+          <Route path='/user/feeds' element={<Feeds/>}/>
+          <Route path='/user/setting' element ={<Settings/>}/>
+          <Route index  element={<Dashboard/>}/>
+          <Route path='/user/friendslist' element={<Friends/>}/>
         </Route>
       </Routes>
       

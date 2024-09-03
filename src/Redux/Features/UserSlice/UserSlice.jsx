@@ -39,7 +39,7 @@ const UserSlice = createSlice({
             state.status = 'successful'
             state.user = action.payload.user
             state.token = action.payload.token,
-            Cookies.set("token",JSON.stringify(state.token), {expires: exprirein})
+            Cookies.set("token",JSON.stringify(state.token), {expires: 1/24})
             
             
         })
@@ -80,6 +80,20 @@ const UserSlice = createSlice({
             state.error = action.payload.msg
             
             
+        })
+        builder.addMatcher(UserApi.endpoints.userLogout.matchPending,(state,action)=>{
+            state.status = "loading"
+        })
+        builder.addMatcher(UserApi.endpoints.userLogout.matchFulfilled,(state,action)=>{
+            
+            state.status = 'successful'
+            state.token = action.payload.token,
+            state.user = null
+            Cookies.set("token",JSON.stringify(state.token))
+        })
+        builder.addMatcher(UserApi.endpoints.userLogout.matchRejected,(state,action)=>{
+            
+            state.status = 'failed'
         })
     }
 })
