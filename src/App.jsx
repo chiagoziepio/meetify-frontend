@@ -7,9 +7,11 @@ import SignUp from './components/Pages/SignUp'
 import Dashboard from './components/Pages/Dashboard'
 import Settings from './components/Pages/Settings'
 import Friends from './components/Pages/Friends'
-function App() {
-  
+import {useGetAllUserQuery} from "./Redux/Api/UserApi/UserApi"
 
+function App() {
+  const {data} = useGetAllUserQuery()
+  
   return (
     <div className='flex-grow flex'>
       <Routes>

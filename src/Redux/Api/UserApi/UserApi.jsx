@@ -56,7 +56,10 @@ const getToken = () => {
             
             })
         }),
+        getAllUser: builder.query({
+            query : ()=> "/getallUser"
+        })
     })
  })
 
- export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation, useUserBackgroundPicUploadMutation, useUserLogoutMutation} = UserApi
+ export const {useUserSignupMutation, useUserSigninMutation,useUserProfilePicUploadMutation, useUserBackgroundPicUploadMutation, useUserLogoutMutation, useGetAllUserQuery} = UserApi

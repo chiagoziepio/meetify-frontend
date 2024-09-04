@@ -1,6 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit"
 import FeedReducer from "../Features/FeedsSlice/FeedSlice"
 import UserReducers from "../Features/UserSlice/UserSlice"
+import AllUserReducer from "../Features/AllUserSlice/allUserSlice"
 import {UserApi} from "../Api/UserApi/UserApi"
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -26,6 +27,7 @@ const Store = configureStore({
     reducer:{
         FeedReducer : FeedReducer,
         UserReducers: persistedUserReducer,
+        AllUserReducer: AllUserReducer,
         [UserApi.reducerPath] : UserApi.reducer,
     },
     middleware: (getDefaultMiddleware)=> getDefaultMiddleware({
