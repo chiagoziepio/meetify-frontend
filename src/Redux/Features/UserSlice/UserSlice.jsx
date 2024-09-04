@@ -88,12 +88,22 @@ const UserSlice = createSlice({
             
             state.status = 'successful'
             state.token = action.payload.token,
-            state.user = null
+            state.user = null,
             Cookies.set("token",JSON.stringify(state.token))
         })
         builder.addMatcher(UserApi.endpoints.userLogout.matchRejected,(state,action)=>{
             
             state.status = 'failed'
+        })
+        builder.addMatcher(UserApi.endpoints.addFriend.matchPending, (state,action)=>{
+            state.status = "loading"
+        })
+        builder.addMatcher(UserApi.endpoints.addFriend.matchFulfilled, (state,action)=>{
+            state.status = "successful",
+            state.user = action.payload.user
+        })
+        builder.addMatcher(UserApi.endpoints.addFriend.matchPending, (state,action)=>{
+            state.status = "failed"
         })
     }
 })
