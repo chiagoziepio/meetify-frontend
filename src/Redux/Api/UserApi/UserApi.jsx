@@ -54,6 +54,13 @@ export const UserApi = createApi({
         body: id,
       }),
     }),
+    removeFriend: builder.mutation({
+      query: (id) => ({
+        url: "/removefriend",
+        method: "POST",
+        body: id,
+      }),
+    }),
     userLogout: builder.mutation({
       query: () => ({
         url: "/logout",
@@ -75,4 +82,5 @@ export const {
   useUserLogoutMutation,
   useGetAllUserQuery,
   useAddFriendMutation,
+  useRemoveFriendMutation
 } = UserApi;

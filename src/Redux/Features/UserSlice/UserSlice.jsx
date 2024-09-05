@@ -105,6 +105,16 @@ const UserSlice = createSlice({
         builder.addMatcher(UserApi.endpoints.addFriend.matchPending, (state,action)=>{
             state.status = "failed"
         })
+        builder.addMatcher(UserApi.endpoints.removeFriend.matchPending, (state,action)=>{
+            state.status ="loading"
+        })
+        builder.addMatcher(UserApi.endpoints.removeFriend.matchFulfilled, (state,action)=>{
+            state.status ="successfull",
+            state.user = action.payload.user
+        })
+        builder.addMatcher(UserApi.endpoints.removeFriend.matchFulfilled, (state,action)=>{
+            state.status ="failed"
+        })
     }
 })
 
