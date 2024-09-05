@@ -1,5 +1,6 @@
 import React from 'react'
 import Suggestions from './Pages/RightpanelComponent/Suggestions'
+import ActiveUsers from './Pages/RightpanelComponent/ActiveUsers'
 
 const RightPanel = () => {
   return (
@@ -18,7 +19,8 @@ const RightPanel = () => {
           <Suggestions/>
         </div>
         <div className='w-[80%] h-[30%]'>
-          <h3 className='text-[17px] roboto-medium'>Currently active user</h3>
+          <h3 className='text-[17px] roboto-medium'>Currently active Friends</h3>
+          <ActiveUsers/>
         </div>
       </div>
     </div>

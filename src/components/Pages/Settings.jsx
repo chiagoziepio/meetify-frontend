@@ -12,8 +12,10 @@ const Settings = () => {
         message.success(data.msg)
         navigate("/")
       } catch (error) {
-        console.log(error);
-        
+        message.error(error.data.msg)
+        if(error.data.msg === "access denied"){
+          navigate("/")
+        }
       }
   }
   return (

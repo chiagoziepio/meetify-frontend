@@ -71,6 +71,10 @@ export const UserApi = createApi({
     getAllUser: builder.query({
       query: () => "/getallUser",
     }),
+    getActiveUser: builder.query({
+      query: () => "/getactiveusers",
+      pollingInterval: 600000
+    }),
   }),
 });
 
@@ -82,5 +86,6 @@ export const {
   useUserLogoutMutation,
   useGetAllUserQuery,
   useAddFriendMutation,
-  useRemoveFriendMutation
+  useRemoveFriendMutation,
+  useGetActiveUserQuery
 } = UserApi;

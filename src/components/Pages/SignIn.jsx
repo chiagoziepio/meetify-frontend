@@ -14,7 +14,7 @@ const SignIn = () => {
     await userSignin(values).unwrap().then(result => {
       message.success(result.msg)
       navigate("/user/feeds")
-    })
+    }).catch(error => message.error(error.data.msg))
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">

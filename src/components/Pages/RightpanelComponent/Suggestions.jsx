@@ -5,7 +5,6 @@ import { useAddFriendMutation } from "../../../Redux/Api/UserApi/UserApi";
 import axios from "axios";
 const Suggestions = () => {
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
-  const [isIncluded, setIncluded] = useState();
   const User = useSelector((state) => state.UserReducers.user);
   const [addFriend] = useAddFriendMutation();
 
