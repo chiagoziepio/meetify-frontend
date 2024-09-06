@@ -15,13 +15,14 @@ const FeedSlice = createSlice({
         builder.addMatcher(FeedApi.endpoints.addFeed.matchPending,(state,action)=>{
             state.loading = true,
             state.status = "loading"
+            
         })
         builder.addMatcher(FeedApi.endpoints.addFeed.matchFulfilled,(state,action)=>{
             state.loading = false,
             state.status = "successful",
             state.feeds = action.payload.feeds
         })
-        builder.addMatcher(FeedApi.endpoints.addFeed.matchFulfilled,(state,action)=>{
+        builder.addMatcher(FeedApi.endpoints.addFeed.matchRejected,(state,action)=>{
             state.loading = false,
             state.status = "failed",
             state.error = action.payload.msg
