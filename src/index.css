@@ -29,3 +29,11 @@ body{
     font-weight: 700;
     font-style: normal;
   }
+  .custom-upload .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container{
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .custom-upload  .ant-upload.ant-upload-select{
+    width: 50px !important;
+    height: 50px !important;
+  }

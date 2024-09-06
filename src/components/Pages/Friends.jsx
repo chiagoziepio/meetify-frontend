@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Avatar, message, Spin } from "antd";
 import {useRemoveFriendMutation} from "../../Redux/Api/UserApi/UserApi"
 import { ImSpinner3 } from "react-icons/im";
+import { Link } from "react-router-dom";
 const Friends = () => {
   const [tab,setTab] = useState()
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
@@ -46,6 +47,7 @@ const Friends = () => {
                 <div key={user._id} className="cursor-pointer hover:bg-gray-300 hover:rounded-[10px] flex items-center p-[7px] ">
                   <div className="flex justify-between w-full">
                     <div className="flex gap-x-[7px] items-center">
+                      <Link to ={`/user/${user._id}`}>
                       <Avatar
                         src={
                           user.profilePic
@@ -55,6 +57,7 @@ const Friends = () => {
                         size={50}
                         className={user.online && "border-[5px] border-green-300"}
                       />
+                      </Link>
                       <p className="roboto-bold text-[20px] text-black">
                         {user.username}
                       </p>

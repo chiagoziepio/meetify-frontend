@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Avatar, message } from "antd";
 import { useAddFriendMutation } from "../../../Redux/Api/UserApi/UserApi";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Suggestions = () => {
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const User = useSelector((state) => state.UserReducers.user);
@@ -41,6 +42,7 @@ const Suggestions = () => {
                 <div key={user._id}>
                   <div className="flex justify-between">
                     <div className="flex gap-x-[7px] items-center">
+                      <Link to ={`/user/${user._id}`} className=" cursor-pointer ">
                       <Avatar
                         src={
                           user.profilePic
@@ -49,6 +51,7 @@ const Suggestions = () => {
                         }
                         size={50}
                       />
+                      </Link>
                       <p className="roboto-bold text-[20px] text-black">
                         {user.username}
                       </p>
@@ -76,6 +79,7 @@ const Suggestions = () => {
                   <div key={user._id}>
                     <div className="flex justify-between">
                       <div className="flex gap-x-[7px] items-center">
+                        <Link to ={`/user/${user._id}`} className=" cursor-pointer "> 
                         <Avatar
                           src={
                             user.profilePic
@@ -84,6 +88,7 @@ const Suggestions = () => {
                           }
                           size={50}
                         />
+                        </Link>
                         <p className="roboto-bold text-[20px] text-black">
                           {user.username}
                         </p>

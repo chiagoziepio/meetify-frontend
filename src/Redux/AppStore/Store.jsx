@@ -19,13 +19,16 @@ import {
     key: "user",
     storage,
   };
-  
+  const authPersitConfigFeed = {
+    key: "feeds",
+    storage,
+  }
   const persistedUserReducer = persistReducer(authPersistConfig, UserReducers);
-  
+  const persistFeedReducer = persistReducer(authPersitConfigFeed, FeedReducer)
 
 const Store = configureStore({
     reducer:{
-        FeedReducer : FeedReducer,
+        FeedReducer : persistFeedReducer,
         UserReducers: persistedUserReducer,
         AllUserReducer: AllUserReducer,
         [UserApi.reducerPath] : UserApi.reducer,

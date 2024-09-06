@@ -9,7 +9,7 @@ const getToken = () => {
 export const UserApi = createApi({
   reducerPath: "UserApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/user",
+    baseUrl: "http://localhost:3000/api/",
     prepareHeaders: (headers) => {
       const token = getToken();
       if (token) {
@@ -21,58 +21,58 @@ export const UserApi = createApi({
   endpoints: (builder) => ({
     userSignup: builder.mutation({
       query: (values) => ({
-        url: "/register",
+        url: "user/register",
         method: "POST",
         body: values,
       }),
     }),
     userSignin: builder.mutation({
       query: (values) => ({
-        url: "/login",
+        url: "user/login",
         method: "POST",
         body: values,
       }),
     }),
     userProfilePicUpload: builder.mutation({
       query: (value) => ({
-        url: "/profilepicupload",
+        url: "user/profilepicupload",
         method: "POST",
         body: value,
       }),
     }),
     userBackgroundPicUpload: builder.mutation({
       query: (value) => ({
-        url: "/backgroundpicupload",
+        url: "user/backgroundpicupload",
         method: "POST",
         body: value,
       }),
     }),
     addFriend: builder.mutation({
       query: (id) => ({
-        url: "/addfriend",
+        url: "user/addfriend",
         method: "POST",
         body: id,
       }),
     }),
     removeFriend: builder.mutation({
       query: (id) => ({
-        url: "/removefriend",
+        url: "user/removefriend",
         method: "POST",
         body: id,
       }),
     }),
     userLogout: builder.mutation({
       query: () => ({
-        url: "/logout",
+        url: "user/logout",
         method: "POST",
       }),
     }),
 
     getAllUser: builder.query({
-      query: () => "/getallUser",
+      query: () => "user/getallUser",
     }),
     getActiveUser: builder.query({
-      query: () => "/getactiveusers",
+      query: () => "user/getactiveusers",
       pollingInterval: 600000
     }),
   }),

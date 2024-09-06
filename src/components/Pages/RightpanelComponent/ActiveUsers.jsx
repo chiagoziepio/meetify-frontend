@@ -1,7 +1,7 @@
 import { Avatar } from 'antd';
 import React from 'react'
 import { useSelector } from 'react-redux'
-
+import { Link } from 'react-router-dom';
 const ActiveUsers = () => {
     const activeUsers = useSelector(state => state. AllUserReducer.activeUsers)
     const User = useSelector((state) => state.UserReducers.user);
@@ -17,6 +17,7 @@ const ActiveUsers = () => {
                 <div key={user._id}>
                 <div className="flex justify-between">
                   <div className="flex gap-x-[7px] items-center">
+                    <Link to={`/user/${user._id}`}>
                     <Avatar
                       src={
                         user.profilePic
@@ -26,6 +27,7 @@ const ActiveUsers = () => {
                       size={50}
                       className=' border-green-600 border-[5px]'
                     />
+                    </Link>
                     <p className="roboto-bold text-[20px] text-black">
                       {user.username}
                     </p>

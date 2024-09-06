@@ -7,6 +7,10 @@ import SignUp from './components/Pages/SignUp'
 import Dashboard from './components/Pages/Dashboard'
 import Settings from './components/Pages/Settings'
 import Friends from './components/Pages/Friends'
+import Media from "./components/Pages/Media"
+import Messages from './components/Pages/Messages'
+import Groups from "./components/Pages/Groups"
+import SingleFriends from './components/Pages/SingleFriends'
 import {useGetAllUserQuery} from "./Redux/Api/UserApi/UserApi"
 
 function App() {
@@ -22,6 +26,11 @@ function App() {
           <Route path='/user/setting' element ={<Settings/>}/>
           <Route index  element={<Dashboard/>}/>
           <Route path='/user/friendslist' element={<Friends/>}/>
+          <Route path='/user/groups' element={<Groups/>}/>
+          <Route path='/user/media' element={<Media/>}/>
+          <Route path='/user/messages' element={<Messages/>}/>
+          <Route path='/user/:id' element={<SingleFriends/>}/>
+
         </Route>
       </Routes>
       
