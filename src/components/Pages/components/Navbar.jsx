@@ -47,7 +47,7 @@ export const Links = [
 const Navbar = () => {
   return (
     <div>
-      <div className="flex flex-col gap-y-[20px] items-center">
+      <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[150px] w-[200px]">
         {Links.map((link) => (
           <div key={link.id} className="w-[70%]">
             <NavLink

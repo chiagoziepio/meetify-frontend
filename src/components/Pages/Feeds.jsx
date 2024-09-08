@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaMeetup } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ImFilePicture } from "react-icons/im";
-import { useAddFeedMutation } from "../../Redux/Api/FeedApi/Feedapi";
+import { useAddFeedMutation, useGetFeedsQuery, useToggleLikeMutation } from "../../Redux/Api/FeedApi/Feedapi";
 import { ImSpinner3 } from "react-icons/im";
 import { BsFillSendArrowUpFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -11,10 +11,14 @@ const Feeds = () => {
   const { TextArea } = Input;
   const User = useSelector((state) => state.UserReducers.user);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
+  const feedSize = useSelector((state) => state.FeedReducers.feedSize);
+  const feedDiff = useSelector((state) => state.FeedReducers.feedDiff);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const [imgUrl, setImgUrl] = useState([]);
   const [form] = Form.useForm();
   const [addFeed, { isLoading }] = useAddFeedMutation();
+  const [toggleLike] = useToggleLikeMutation()
+  const {data} = useGetFeedsQuery()
   const handleAddPost = async (values) => {
     const formData = new FormData();
     const { content, image } = values;
@@ -42,19 +46,34 @@ const Feeds = () => {
   const onChage = (info) => {
     setImgUrl(info.fileList[info.fileList.length - 1].originFileObj);
   };
+  const handleToggleLike = async(id)=>{
+    try {
+      const res = await toggleLike({id}).unwrap()
+    } catch (error) {
+      message.error(error.data.msg)
+      console.log(error);
+      
+    }
+  }
   let thePostToBeShown;
   let state = false;
   if (feeds.length && User.friends.length && allUsers) {
     const friendsId = User.friends.map((id) => id);
     const AllUsers = allUsers.map((user) => user);
     const friends = AllUsers.filter((user) => friendsId.includes(user._id));
-    const postToShow = feeds.filter(
+    const friendsEmail = friends.map(user => user.email)
+    const Allfeeds = feeds.map(feed => feed)
+    const postToShow = Allfeeds.filter(
       (feed) =>
-        feed.authorEmail === friends.email || feed.authorEmail === User.email
+        friendsEmail.includes(feed.authorEmail) || feed.authorEmail === User.email
     );
-    thePostToBeShown = postToShow;
+    thePostToBeShown = postToShow.slice().reverse();
     state = true;
+    if(feedDiff){
+      message.success(`${feedSize} new added`)
+    }
   }
+
   return (
     <div className="flex-grow mt-[30px]">
       <div>
@@ -137,6 +156,9 @@ const Feeds = () => {
                         </p>
                       </div>
                       <div className="p-[15px]">
+                      {feed.content ? 
+                          <div className="text-[17px] mb-[15px]">{feed.content}</div> 
+                          : ""}
                         {feed.postImage ? (
                           <div className="h-[300px]">
                             <img src={feed.postImage} alt="" className="w-full h-full" />
@@ -144,9 +166,7 @@ const Feeds = () => {
                         ) : (
                           ""
                         )}
-                        {feed.content ? 
-                          <div className="text-[17px]">{feed.content}</div> 
-                          : ""}
+                        
                           <div className="mt-[10px] flex justify-between items-center">
                             <form className="w-[85%]">
                                 <div className="flex bg-[#f5f5f5] justify-between items-center p-[7px] rounded-[10px]">
@@ -154,14 +174,14 @@ const Feeds = () => {
                                  <button className="w-fit h-fit bg-transparent"><BsFillSendArrowUpFill size={20}/></button>
                                 </div>
                             </form>
-                              <span><FaHeart size={20}/></span>
+                              <span onClick={()=> handleToggleLike(feed._id)} className={feed.likedBy.includes(User._id) ? "text-red-600" : "text-black"}><FaHeart size={20}/></span>
                           </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p>No post made you or your friends yet</p>
+                <p className="roboto-medium text-[20px]">No post made by you or your friends yet</p>
               )}
             </div>
           </div>

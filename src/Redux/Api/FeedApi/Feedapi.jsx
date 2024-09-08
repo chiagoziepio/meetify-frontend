@@ -10,10 +10,18 @@ export const FeedApi = UserApi.injectEndpoints({
             })
         }),
         getFeeds : builder.query({
-            query : ()=> "feeds/getfeeds"
+            query : ()=> "feeds/getfeeds",
+            pollingInterval: 180000
+        }),
+        toggleLike : builder.mutation({
+            query: (id) => ({
+                url: "feeds/togglelike",
+                method: 'POST',
+                body: id
+            })
         })
     }),
     overrideExisting: false
 })
 
-export const {useAddFeedMutation, useGetFeedsQuery} = FeedApi
+export const {useAddFeedMutation, useGetFeedsQuery,useToggleLikeMutation} = FeedApi

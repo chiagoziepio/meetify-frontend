@@ -13,6 +13,7 @@ const ActiveUsers = () => {
   return (
     <div>
         <div className='mt-[10px]'>
+        <h3 className='text-[17px] roboto-medium'>Currently active Friends</h3>
             {excludedLoggedInuser.length ? excludedLoggedInuser.map(user => (
                 <div key={user._id}>
                 <div className="flex justify-between">

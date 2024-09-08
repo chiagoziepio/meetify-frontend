@@ -34,6 +34,7 @@ const Suggestions = () => {
 
   return (
     <div className="mt-[10px]">
+       <h4 className='text-[19px] roboto-bold'>Suggestions</h4>
       <div>
         {state ? (
           <div>

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const User = useSelector((state) => state.UserReducers.user);
   return (
-    <div className="p-[20px]">
+    <div className="p-[20px] fixed ">
       <div className="flex justify-center">
         <Avatar
           src={ User !== null ?
