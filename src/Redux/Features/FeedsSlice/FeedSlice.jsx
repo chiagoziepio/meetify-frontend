@@ -13,7 +13,21 @@ const initialState = {
 const FeedSlice = createSlice({
     name: "feeds",
     initialState,
-    reducers: {},
+    reducers: {
+        updateFeeds: (state,action)=>{
+            if(action.payload.length > state.feeds.length){
+                state.feedDiff = true;
+                const diff = action.payload.length - state.feeds.length;
+                state.feedSize = diff
+            }else{
+                state.feedDiff = false;
+                state.feedSize = null
+            }
+            state.loading = false,
+            state.status = "successfull",
+            state.feeds = action.payload
+        }
+    },
     extraReducers : (builder)=> {
         builder.addMatcher(FeedApi.endpoints.addFeed.matchPending,(state,action)=>{
             state.loading = true,
@@ -57,14 +71,6 @@ const FeedSlice = createSlice({
             state.status = "loading"
         })
         builder.addMatcher(FeedApi.endpoints.toggleLike.matchFulfilled,(state,action)=>{
-            if(action.payload.feeds.length > state.feeds.length){
-                state.feedDiff = true;
-                const diff = action.payload.feeds.length - state.feeds.length;
-                state.feedSize = diff
-            }else{
-                state.feedDiff = false;
-                state.feedSize = null
-            }
             state.loading = false,
             state.status = "successfull",
             state.feeds = action.payload.feeds
@@ -78,5 +84,6 @@ const FeedSlice = createSlice({
     }
 })
 
+export const {updateFeeds} = FeedSlice.actions
 
 export default FeedSlice.reducer

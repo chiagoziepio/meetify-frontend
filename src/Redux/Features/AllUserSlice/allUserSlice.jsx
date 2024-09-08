@@ -8,7 +8,11 @@ const allUserSlice = createSlice({
         status: "loading",
         activeUsers : []
     },
-    reducers:{},
+    reducers:{
+        updateUser : (state,action)=>{
+            state.activeUsers = action.payload
+        }
+    },
     extraReducers: (builder)=>{
             builder.addMatcher(UserApi.endpoints.getAllUser.matchPending,(state,action)=>{
                 state.status = "loading"
@@ -26,4 +30,5 @@ const allUserSlice = createSlice({
     }
 })
 
+export const {updateUser} = allUserSlice.actions
 export default  allUserSlice.reducer

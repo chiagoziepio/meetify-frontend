@@ -1,12 +1,20 @@
 import { Avatar, Button, Form, Input, message, Upload } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMeetup } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ImFilePicture } from "react-icons/im";
-import { useAddFeedMutation, useGetFeedsQuery, useToggleLikeMutation } from "../../Redux/Api/FeedApi/Feedapi";
+import {
+  useAddFeedMutation,
+  useGetFeedsQuery,
+  useToggleLikeMutation,
+} from "../../Redux/Api/FeedApi/Feedapi";
+import {updateFeeds} from "../../Redux/Features/FeedsSlice/FeedSlice"
 import { ImSpinner3 } from "react-icons/im";
 import { BsFillSendArrowUpFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
+import Cookies from "js-cookie";
+import axios from "axios";
+
 const Feeds = () => {
   const { TextArea } = Input;
   const User = useSelector((state) => state.UserReducers.user);
@@ -14,11 +22,47 @@ const Feeds = () => {
   const feedSize = useSelector((state) => state.FeedReducers.feedSize);
   const feedDiff = useSelector((state) => state.FeedReducers.feedDiff);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
+
   const [imgUrl, setImgUrl] = useState([]);
   const [form] = Form.useForm();
   const [addFeed, { isLoading }] = useAddFeedMutation();
-  const [toggleLike] = useToggleLikeMutation()
-  const {data} = useGetFeedsQuery()
+  const [toggleLike] = useToggleLikeMutation();
+  const { data } = useGetFeedsQuery();
+  const dispatch = useDispatch()
+  const getToken = () => {
+    const token = Cookies.get("token");
+    return token ? JSON.parse(token) : null;
+  };
+
+  const fetchAllfeeds = async () => {
+    const token = getToken();
+    if (token) {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/feeds/getfeeds",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = res;
+       dispatch(updateFeeds(data.data.feeds))
+        //console.log(data.data.feeds);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(()=>{
+    fetchAllfeeds()
+  const interval =   setInterval(fetchAllfeeds,180000 )
+  return () => {
+    clearInterval(interval)
+  }
+  },[])
+
   const handleAddPost = async (values) => {
     const formData = new FormData();
     const { content, image } = values;
@@ -46,31 +90,31 @@ const Feeds = () => {
   const onChage = (info) => {
     setImgUrl(info.fileList[info.fileList.length - 1].originFileObj);
   };
-  const handleToggleLike = async(id)=>{
+  const handleToggleLike = async (id) => {
     try {
-      const res = await toggleLike({id}).unwrap()
+      const res = await toggleLike({ id }).unwrap();
     } catch (error) {
-      message.error(error.data.msg)
+      message.error(error.data.msg);
       console.log(error);
-      
     }
-  }
+  };
   let thePostToBeShown;
   let state = false;
   if (feeds.length && User.friends.length && allUsers) {
     const friendsId = User.friends.map((id) => id);
     const AllUsers = allUsers.map((user) => user);
     const friends = AllUsers.filter((user) => friendsId.includes(user._id));
-    const friendsEmail = friends.map(user => user.email)
-    const Allfeeds = feeds.map(feed => feed)
+    const friendsEmail = friends.map((user) => user.email);
+    const Allfeeds = feeds.map((feed) => feed);
     const postToShow = Allfeeds.filter(
       (feed) =>
-        friendsEmail.includes(feed.authorEmail) || feed.authorEmail === User.email
+        friendsEmail.includes(feed.authorEmail) ||
+        feed.authorEmail === User.email
     );
     thePostToBeShown = postToShow.slice().reverse();
     state = true;
-    if(feedDiff){
-      message.success(`${feedSize} new added`)
+    if (feedDiff) {
+      message.success(`${feedSize} new added`);
     }
   }
 
@@ -156,32 +200,60 @@ const Feeds = () => {
                         </p>
                       </div>
                       <div className="p-[15px]">
-                      {feed.content ? 
-                          <div className="text-[17px] mb-[15px]">{feed.content}</div> 
-                          : ""}
-                        {feed.postImage ? (
-                          <div className="h-[300px]">
-                            <img src={feed.postImage} alt="" className="w-full h-full" />
+                        {feed.content ? (
+                          <div className="text-[17px] mb-[15px]">
+                            {feed.content}
                           </div>
                         ) : (
                           ""
                         )}
-                        
-                          <div className="mt-[10px] flex justify-between items-center">
-                            <form className="w-[85%]">
-                                <div className="flex bg-[#f5f5f5] justify-between items-center p-[7px] rounded-[10px]">
-                                  <input type="text" placeholder="comment" className="bg-transparent border-none outline-none text-black w-[90%]" />
-                                 <button className="w-fit h-fit bg-transparent"><BsFillSendArrowUpFill size={20}/></button>
-                                </div>
-                            </form>
-                              <span onClick={()=> handleToggleLike(feed._id)} className={feed.likedBy.includes(User._id) ? "text-red-600" : "text-black"}><FaHeart size={20}/></span>
+                        {feed.postImage ? (
+                          <div className="h-[300px]">
+                            <img
+                              src={feed.postImage}
+                              alt=""
+                              className="w-full h-full"
+                            />
                           </div>
+                        ) : (
+                          ""
+                        )}
+
+                        <div className="mt-[10px] flex justify-between items-center">
+                          <form className="w-[85%]">
+                            <div className="flex bg-[#f5f5f5] justify-between items-center p-[7px] rounded-[10px]">
+                              <input
+                                type="text"
+                                placeholder="comment"
+                                className="bg-transparent border-none outline-none text-black w-[90%]"
+                              />
+                              <button className="w-fit h-fit bg-transparent">
+                                <BsFillSendArrowUpFill size={20} />
+                              </button>
+                            </div>
+                          </form>
+                          <span
+                            onClick={() => handleToggleLike(feed._id)}
+                            className={
+                              feed.likedBy.includes(User._id)
+                                ? "text-red-600 flex gap-x-[6px]"
+                                : "text-black flex gap-x-[6px]"
+                            }
+                          >
+                            <FaHeart size={20} />
+                            <span className="text-black text-[13px]">
+                              {feed.likedBy.length ? feed.likedBy.length : ""}
+                            </span>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="roboto-medium text-[20px]">No post made by you or your friends yet</p>
+                <p className="roboto-medium text-[20px]">
+                  No post made by you or your friends yet
+                </p>
               )}
             </div>
           </div>
