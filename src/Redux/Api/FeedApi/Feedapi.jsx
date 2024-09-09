@@ -19,9 +19,16 @@ export const FeedApi = UserApi.injectEndpoints({
                 method: 'POST',
                 body: id
             })
+        }),
+        addcomment : builder.mutation({
+            query: (values) => ({
+                url: "feeds/addcomment",
+                method: 'POST',
+                body: values
+            })
         })
     }),
     overrideExisting: false
 })
 
-export const {useAddFeedMutation, useGetFeedsQuery,useToggleLikeMutation} = FeedApi
+export const {useAddFeedMutation, useGetFeedsQuery,useToggleLikeMutation, useAddcommentMutation} = FeedApi

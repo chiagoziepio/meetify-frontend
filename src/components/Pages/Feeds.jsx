@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import { FaMeetup } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { ImFilePicture } from "react-icons/im";
+import { FaRegCommentDots } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
 import {
   useAddFeedMutation,
   useGetFeedsQuery,
   useToggleLikeMutation,
+  useAddcommentMutation,
 } from "../../Redux/Api/FeedApi/Feedapi";
-import {updateFeeds} from "../../Redux/Features/FeedsSlice/FeedSlice"
+import { updateFeeds } from "../../Redux/Features/FeedsSlice/FeedSlice";
 import { ImSpinner3 } from "react-icons/im";
 import { BsFillSendArrowUpFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -17,18 +20,24 @@ import axios from "axios";
 
 const Feeds = () => {
   const { TextArea } = Input;
+  const [inputValues, setInputValues] = useState({});
+  const [isViewingComment, setIsViewingComment] = useState(false);
+  const [thePost, setThePost] = useState(null);
+
   const User = useSelector((state) => state.UserReducers.user);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
   const feedSize = useSelector((state) => state.FeedReducers.feedSize);
   const feedDiff = useSelector((state) => state.FeedReducers.feedDiff);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
-
   const [imgUrl, setImgUrl] = useState([]);
+
   const [form] = Form.useForm();
   const [addFeed, { isLoading }] = useAddFeedMutation();
   const [toggleLike] = useToggleLikeMutation();
   const { data } = useGetFeedsQuery();
-  const dispatch = useDispatch()
+  const [addcomment] = useAddcommentMutation();
+
+  const dispatch = useDispatch();
   const getToken = () => {
     const token = Cookies.get("token");
     return token ? JSON.parse(token) : null;
@@ -47,7 +56,7 @@ const Feeds = () => {
           }
         );
         const data = res;
-       dispatch(updateFeeds(data.data.feeds))
+        dispatch(updateFeeds(data.data.feeds));
         //console.log(data.data.feeds);
       } catch (error) {
         console.log(error);
@@ -55,13 +64,13 @@ const Feeds = () => {
     }
   };
 
-  useEffect(()=>{
-    fetchAllfeeds()
-  const interval =   setInterval(fetchAllfeeds,180000 )
-  return () => {
-    clearInterval(interval)
-  }
-  },[])
+  useEffect(() => {
+    fetchAllfeeds();
+    const interval = setInterval(fetchAllfeeds, 180000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleAddPost = async (values) => {
     const formData = new FormData();
@@ -98,6 +107,29 @@ const Feeds = () => {
       console.log(error);
     }
   };
+  const handleInputChange = (postId, event) => {
+    const { value } = event.target;
+
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [postId]: value,
+    }));
+  };
+  const handleAddComment = async (id, e) => {
+    e.preventDefault();
+    if (!inputValues || !id) return;
+    const content = inputValues[id];
+    const values = { id, content };
+    try {
+      const res = await addcomment(values).unwrap();
+      const data = res;
+  
+    } catch (error) {
+     message.error(error.data.msg)
+    }
+    setInputValues({});
+  };
+
   let thePostToBeShown;
   let state = false;
   if (feeds.length && User.friends.length && allUsers) {
@@ -184,7 +216,7 @@ const Feeds = () => {
                   {thePostToBeShown.map((feed) => (
                     <div
                       key={feed._id}
-                      className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] "
+                      className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] relative "
                     >
                       <div className="flex gap-x-[15px] items-center ml-[5%] pt-[10px]">
                         <Avatar
@@ -220,10 +252,18 @@ const Feeds = () => {
                         )}
 
                         <div className="mt-[10px] flex justify-between items-center">
-                          <form className="w-[85%]">
+                          <form
+                            className="w-[85%]"
+                            onSubmit={(e) => handleAddComment(feed._id, e)}
+                          >
                             <div className="flex bg-[#f5f5f5] justify-between items-center p-[7px] rounded-[10px]">
                               <input
                                 type="text"
+                                id={feed._id}
+                                value={inputValues[feed._id] || ""}
+                                onChange={(event) =>
+                                  handleInputChange(feed._id, event)
+                                }
                                 placeholder="comment"
                                 className="bg-transparent border-none outline-none text-black w-[90%]"
                               />
@@ -245,6 +285,44 @@ const Feeds = () => {
                               {feed.likedBy.length ? feed.likedBy.length : ""}
                             </span>
                           </span>
+                        </div>
+                        <div className="mt-[8px]">
+                          <div className="w-fit h-fit">
+                            {isViewingComment && thePost === feed._id ? (
+                              <IoCloseOutline
+                                size={25}
+                                onClick={() => {
+                                  setThePost(null), setIsViewingComment(false);
+                                }}
+                              />
+                            ) : (
+                              <div className="flex gap-x-[6px]">
+
+                                <FaRegCommentDots
+                                  size={20}
+                                  onClick={() => {
+                                    setThePost(feed._id),
+                                      setIsViewingComment(true);
+                                  }}
+                                />
+                                {feed.comment.length ? <span>{feed.comment.length}</span> : ""}
+                              </div>
+                            )}
+                          </div>
+                          {thePost === feed._id && (
+                            <div className=" bg-[rgba(0,0,0,0.53)] w-full max-h-[250px] overflow-y-auto mt-[9px] p-[10px] rounded-[10px]">
+                              {feed.comment.length ? feed.comment.map(comment => (
+                                <div key={comment._id} className="m-[5px] flex gap-x-[10px]">
+                                  <Avatar src = {comment.commentAuthorPic ? comment.commentAuthorPic : ""} size={30}/>
+                                  <div className="w-[90%]">
+
+                                  <h3 className="roboto-medium text-[17px]">{comment.commentedBy}</h3>
+                                  <p className="mt-[-5px]">{comment.content}</p>
+                                  </div>
+                                </div>
+                              )): <p>No comment on this post yet</p>}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
