@@ -6,8 +6,13 @@ import {
 } from "../../Redux/Api/UserApi/UserApi";
 import { useSelector } from "react-redux";
 import { FaUser } from "react-icons/fa";
+import LikedPost from "./ProfileComponents/LikedPost";
+import PostMade from "./ProfileComponents/PostMade";
+
 const Dashboard = () => {
   const User = useSelector((state) => state.UserReducers.user);
+
+  const [tab, setTab] = useState("tab1")
 
   const [userProfilePicUpload, { isLoading, isError, error }] =
     useUserProfilePicUploadMutation();
@@ -47,7 +52,7 @@ const Dashboard = () => {
     <div className="flex-grow">
       <div>
         <div>
-          <div className="h-[330px] relative ">
+          <div className="h-[200px] relative ">
             <img
               src={ User !==null ?
                 User.backgroundPic
@@ -92,6 +97,17 @@ const Dashboard = () => {
                 Change image
               </button>
             </Upload>
+          </div>
+        </div>
+        <div>
+          <div className="flex justify-evenly mt-[15px]">
+            <span onClick={()=>setTab("tab1")} className={tab === "tab1" ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center" : "w-[45%] bg-[white] h-[57px] flex justify-center items-center  cursor-pointer "}><span  className="text-[20px] roboto-medium">Posts</span></span>
+            <span className={tab === "tab2" ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center" : "w-[45%] bg-[white] h-[57px] flex justify-center items-center cursor-pointer"} onClick={()=>setTab("tab2")}><span className="text-[20px] roboto-medium">Posts that you liked</span> </span>
+          </div>
+          <div className="mt-[15px]">
+          {tab === "tab1" && <PostMade/>}
+          {tab === "tab2" && <LikedPost/>}
+            
           </div>
         </div>
       </div>
