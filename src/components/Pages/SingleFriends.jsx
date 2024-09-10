@@ -121,13 +121,13 @@ const SingleFriends = () => {
                 <div>
                   <h3 className="roboto-bold text-[20px]">{user.username}</h3>
                   <div className="flex gap-x-[15px]">
-                    <span className="flex gap-x-[10px]">
+                    <span className="flex gap-x-[10px] items-center">
                       <SiBuzzfeed size={16} /> {userPosts.length}{" "}
                       {userPosts.length > 1 ? "posts" : "post"}
                     </span>
-                    <span className="flex gap-x-[10px]">
+                    <span className="flex gap-x-[10px]  items-center">
                       <IoIosPeople size={16} /> {user.friends.length}{" "}
-                      {user.friends.length > 1 ? "friends" : "friend"}
+                      {user.friends.length > 1 ? "followers" : "follower"}
                     </span>
                   </div>
                 </div>

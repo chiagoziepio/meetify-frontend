@@ -22,7 +22,7 @@ const PostMade = () => {
   const [toggleLike] = useToggleLikeMutation();
 
   const allFeeds = feeds.map((feed) => feed);
-  const userPost = allFeeds.filter((feed) => feed.authorEmail === User.email);
+  const userPost = allFeeds.filter((feed) => feed.authorId === User._id);
 
 
 const handleToggleLike = async (id) => {
