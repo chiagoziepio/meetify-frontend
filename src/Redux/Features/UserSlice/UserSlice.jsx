@@ -115,6 +115,12 @@ const UserSlice = createSlice({
         builder.addMatcher(UserApi.endpoints.removeFriend.matchFulfilled, (state,action)=>{
             state.status ="failed"
         })
+        builder.addMatcher(UserApi.endpoints.userEditDetails.matchFulfilled,(state,action)=>{
+            state.status = 'successful'
+            state.user = action.payload.user
+            state.token = action.payload.token,
+            Cookies.set("token",JSON.stringify(state.token), {expires: 1/24})
+        })
     }
 })
 

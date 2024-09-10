@@ -67,6 +67,13 @@ export const UserApi = createApi({
         method: "POST",
       }),
     }),
+    userEditDetails: builder.mutation({
+      query: (values) => ({
+        url: "user/edituser",
+        method: "POST",
+        body: values
+      }),
+    }),
 
     getAllUser: builder.query({
       query: () => "user/getallUser",
@@ -87,5 +94,6 @@ export const {
   useGetAllUserQuery,
   useAddFriendMutation,
   useRemoveFriendMutation,
-  useGetActiveUserQuery
+  useGetActiveUserQuery,
+  useUserEditDetailsMutation
 } = UserApi;

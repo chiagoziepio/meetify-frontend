@@ -14,6 +14,7 @@ import { FaRegUser } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { IoMailUnreadSharp } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
+import UserEditDetail from "./Modal/UserEditDetail";
 
 const Dashboard = () => {
   const User = useSelector((state) => state.UserReducers.user);
@@ -21,6 +22,8 @@ const Dashboard = () => {
 
   const allFeeds = feeds.map((feed) => feed);
   const userPostLength = allFeeds.filter((feed) => feed.authorId === User._id);
+
+  const [isEditing, setIsEditing] = useState(false)
   const [tab, setTab] = useState("tab1");
 
   const [userProfilePicUpload, { isLoading, isError, error }] =
@@ -61,6 +64,7 @@ const Dashboard = () => {
     <div className="flex-grow">
       <div>
         <div>
+          {isEditing && <UserEditDetail isEditing={isEditing} setIsEditing={setIsEditing}/>}
           <div className="h-[200px] relative ">
             <img
               src={
@@ -114,7 +118,7 @@ const Dashboard = () => {
         </div>
         <div className="ml-[20px]">
           <div>
-            <span className="flex items-center gap-x-[15px] roboto-medium text-[25px] mb-[10px] cursor-pointer">Detail <CiEdit size={20}/></span>
+            <span onClick={()=>setIsEditing(true)} className="flex items-center gap-x-[15px] roboto-medium text-[25px] mb-[10px] cursor-pointer w-fit">Detail <CiEdit size={20}/></span>
             <h3 className=" roboto-bold text-[20px] flex gap-x-[13px] items-center">
               < FaUserAlt  size={17}/>
               {User ? User.fullname : ""}
