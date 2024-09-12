@@ -26,9 +26,16 @@ export const FeedApi = UserApi.injectEndpoints({
                 method: 'POST',
                 body: values
             })
+        }),
+        deletePost : builder.mutation({
+            query: (id) => ({
+                url: "feeds/deletepost",
+                method: 'POST',
+                body: id
+            })
         })
     }),
     overrideExisting: false
 })
 
-export const {useAddFeedMutation, useGetFeedsQuery,useToggleLikeMutation, useAddcommentMutation} = FeedApi
+export const {useAddFeedMutation, useGetFeedsQuery,useToggleLikeMutation, useAddcommentMutation, useDeletePostMutation} = FeedApi

@@ -94,6 +94,11 @@ const FeedSlice = createSlice({
             state.status = "failed",
             state.error = action.payload.msg
         })
+        builder.addMatcher(FeedApi.endpoints.deletePost.matchFulfilled,(state,action)=>{
+            state.loading = false,
+            state.status = "successful",
+            state.feeds = action.payload.feeds
+        })
     }
 })
 
