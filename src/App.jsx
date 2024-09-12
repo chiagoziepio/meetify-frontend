@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import Feeds from "./components/Pages/Feeds"
@@ -12,9 +12,36 @@ import Messages from './components/Pages/Messages'
 import Groups from "./components/Pages/Groups"
 import SingleFriends from './components/Pages/SingleFriends'
 import {useGetAllUserQuery} from "./Redux/Api/UserApi/UserApi"
+import ChatPage from './components/Pages/ChatPage'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { getAllUsersAtInterval } from"./Redux/Features/AllUserSlice/allUserSlice";
 
 function App() {
   const {data} = useGetAllUserQuery()
+
+  const dispatch = useDispatch();
+
+  const fetchAllUsers = async () => {
+
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/user/getallUser"
+        );
+        const data = res;
+        dispatch(getAllUsersAtInterval(data.data.msg));
+        //console.log(data.data.feeds);
+      } catch (error) {
+        console.log(error);
+      }
+    
+  };
+
+  useEffect(() => {
+    fetchAllUsers();
+    const interval = setInterval(fetchAllUsers, 180000);
+  
+  }, []);
   
   return (
     <div className='flex-grow flex'>
@@ -30,7 +57,7 @@ function App() {
           <Route path='/user/media' element={<Media/>}/>
           <Route path='/user/messages' element={<Messages/>}/>
           <Route path='/user/:id' element={<SingleFriends/>}/>
-
+          <Route path='/user/chat/:userId' element={<ChatPage/>}/>
         </Route>
       </Routes>
       

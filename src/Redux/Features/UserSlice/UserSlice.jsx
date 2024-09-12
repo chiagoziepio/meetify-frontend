@@ -17,7 +17,7 @@ const UserSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-
+        
     },
     extraReducers: (builder)=>{
         builder.addMatcher(UserApi.endpoints.userSignup.matchPending,(state,action)=>{
