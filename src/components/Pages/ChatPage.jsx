@@ -13,6 +13,7 @@ const SOCKET_SERVER_URL = "http://localhost:3000";
 let socket;
 
 const ChatPage = () => {
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const User = useSelector((state) => state.UserReducers.user);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
 
@@ -206,7 +207,7 @@ const fetchMessages = async (userId) => {
                 className="w-[90%] bg-transparent h-[44px] border-none outline-none"
               />
               <button type="submit">
-                <BsFillSendArrowUpFill size={30} />
+                <BsFillSendArrowUpFill size={30}  className={screenMode === "white" ? "text-black" : "text-black"} />
               </button>
             </form>
           </div>

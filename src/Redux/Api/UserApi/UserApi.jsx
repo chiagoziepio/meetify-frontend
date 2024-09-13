@@ -74,6 +74,13 @@ export const UserApi = createApi({
         body: values
       }),
     }),
+    userResetPwd: builder.mutation({
+      query: (values) => ({
+        url: "user/resetpassword",
+        method: "POST",
+        body: values
+      }),
+    }),
 
     getAllUser: builder.query({
       query: () => "user/getallUser",
@@ -95,5 +102,6 @@ export const {
   useAddFriendMutation,
   useRemoveFriendMutation,
   useGetActiveUserQuery,
-  useUserEditDetailsMutation
+  useUserEditDetailsMutation,
+  useUserResetPwdMutation
 } = UserApi;

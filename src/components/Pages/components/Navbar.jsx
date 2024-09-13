@@ -55,7 +55,11 @@ const Navbar = () => {
             <NavLink
               to={link.path}
               className={({ isActive }) =>
-                isActive  && screenMode === "white" ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]" : "  flex gap-2 roboto-medium text-[18px]"
+                isActive
+                  ? screenMode === "white"
+                    ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                    : "bg-white text-black roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                  : "  flex gap-2 roboto-medium text-[18px]"
               }
             >
               <span>{link.icon}</span>
