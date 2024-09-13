@@ -13,13 +13,13 @@ import Groups from "./components/Pages/Groups"
 import SingleFriends from './components/Pages/SingleFriends'
 import {useGetAllUserQuery} from "./Redux/Api/UserApi/UserApi"
 import ChatPage from './components/Pages/ChatPage'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { getAllUsersAtInterval } from"./Redux/Features/AllUserSlice/allUserSlice";
 
 function App() {
   const {data} = useGetAllUserQuery()
-
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const dispatch = useDispatch();
 
   const fetchAllUsers = async () => {
@@ -44,7 +44,7 @@ function App() {
   }, []);
   
   return (
-    <div className='flex-grow flex'>
+    <div className={screenMode === "white" ? "flex-grow flex text-black" : "flex-grow flex text-white bg-[#000000d5]"}>
       <Routes>
         <Route index element = {<SignIn/>}/>
         <Route path='/register' element={<SignUp/>}/>

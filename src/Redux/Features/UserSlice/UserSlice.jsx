@@ -7,6 +7,7 @@ const initialState = {
     status: "idle",
     error: null,
     feedback: "",
+    screenMode: "white",
     token: null
 
 }
@@ -17,7 +18,12 @@ const UserSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        
+        changeToDark : (state,action)=>{
+            state.screenMode = "black"
+        },
+        changeToWhite : (state,action)=>{
+             state.screenMode = "white"
+        }
     },
     extraReducers: (builder)=>{
         builder.addMatcher(UserApi.endpoints.userSignup.matchPending,(state,action)=>{
@@ -124,5 +130,5 @@ const UserSlice = createSlice({
     }
 })
 
-
+export const {changeToDark, changeToWhite} = UserSlice.actions
 export default UserSlice.reducer

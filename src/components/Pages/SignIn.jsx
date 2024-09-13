@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaMeetup } from "react-icons/fa";
 import { useUserSigninMutation } from "../../Redux/Api/UserApi/UserApi";
+import { useSelector } from "react-redux";
 const SignIn = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm();
   
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const [userSignin, { isLoading, isSuccess, isError, error }] =
   useUserSigninMutation();
   const onFinish = async (values) => {
@@ -18,7 +20,7 @@ const SignIn = () => {
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
-      <div className="  w-full md:w-[700px] bg-[rgb(255,255,255)] p-[20px] rounded-[30px]">
+      <div className="  w-full md:w-[700px] p-[20px] rounded-[30px]" style={{background: screenMode}}>
         <div className="flex justify-around items-center mb-[20px]">
           <FaMeetup size={50} />
           <p className="roboto-medium text-[19px] font-semibold">
@@ -35,7 +37,7 @@ const SignIn = () => {
             </Link>
           </div>
           <div className=" w-full sm:w-[65%] p-[15px]">
-            <Form layout="vertical" onFinish={onFinish}>
+            <Form layout="vertical" onFinish={onFinish} className= {screenMode === "white" ? "white" : "black"} form={form}>
               <div>
                 <Form.Item
                   className=""

@@ -16,6 +16,7 @@ const LikedPost = () => {
   const [thePost, setThePost] = useState(null);
   const [inputValues, setInputValues] = useState({});
 
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
   const User = useSelector((state) => state.UserReducers.user);
 
@@ -67,7 +68,8 @@ const LikedPost = () => {
               .map((feed) => (
                 <div
                   key={feed._id}
-                  className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] relative "
+                  className=" w-full md:w-[500px] feed rounded-[20px] relative "
+                  style={{ background: screenMode }}
                 >
                   <div className="flex gap-x-[15px] items-center ml-[5%] pt-[10px]">
                     {feed.authorId !== User._id && (
@@ -133,7 +135,14 @@ const LikedPost = () => {
                             className="bg-transparent border-none outline-none text-black w-[90%]"
                           />
                           <button className="w-fit h-fit bg-transparent">
-                            <BsFillSendArrowUpFill size={20} />
+                            <BsFillSendArrowUpFill
+                              size={20}
+                              className={
+                                screenMode === "white"
+                                  ? "text-black"
+                                  : "text-black"
+                              }
+                            />
                           </button>
                         </div>
                       </form>
@@ -141,12 +150,20 @@ const LikedPost = () => {
                         onClick={() => handleToggleLike(feed._id)}
                         className={
                           feed.likedBy.includes(User._id)
-                            ? "text-red-600 flex gap-x-[6px]"
-                            : "text-black flex gap-x-[6px]"
+                            ? screenMode === "white"
+                              ? "text-red-600 flex gap-x-[6px]"
+                              : "text-red-600 flex gap-x-[6px]"
+                            : "text-white flex gap-x-[6px]"
                         }
                       >
                         <FaHeart size={20} />
-                        <span className="text-black text-[13px]">
+                        <span
+                          className={
+                            screenMode === "white"
+                              ? "text-black text-[13px]"
+                              : "text-[13px] text-white"
+                          }
+                        >
                           {feed.likedBy.length ? feed.likedBy.length : ""}
                         </span>
                       </span>

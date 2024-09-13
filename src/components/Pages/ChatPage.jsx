@@ -7,6 +7,7 @@ import { BsFillSendArrowUpFill } from "react-icons/bs";
 import { CiMenuKebab } from "react-icons/ci";
 import { CgDanger } from "react-icons/cg";
 import { CgProfile } from "react-icons/cg";
+import axios from "axios";
 
 const SOCKET_SERVER_URL = "http://localhost:3000";
 let socket;
@@ -21,6 +22,26 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isDeletingShowing, setIsDeletingShowing] = useState(false);
+
+
+  // Function to fetch messages
+const fetchMessages = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/message/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+  }
+};
+
+// Inside your React component
+/* useEffect(() => {
+  fetchMessages(userId).then((data) => {
+    setMessages(data);
+    console.log(data);
+    
+  });
+}, [userId]); */
 
   useEffect(() => {
     // Initialize socket connection when component mounts

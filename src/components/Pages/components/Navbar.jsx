@@ -6,6 +6,7 @@ import { IoIosPeople } from "react-icons/io";
 import { ImFilePicture } from "react-icons/im";
 import { IoSettings } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 export const Links = [
   {
     label: "New Feeds",
@@ -45,6 +46,7 @@ export const Links = [
   },
 ];
 const Navbar = () => {
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   return (
     <div>
       <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[150px] w-[200px]">
@@ -53,7 +55,7 @@ const Navbar = () => {
             <NavLink
               to={link.path}
               className={({ isActive }) =>
-                isActive ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]" : " flex gap-2 roboto-medium text-[18px]"
+                isActive  && screenMode === "white" ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]" : "  flex gap-2 roboto-medium text-[18px]"
               }
             >
               <span>{link.icon}</span>

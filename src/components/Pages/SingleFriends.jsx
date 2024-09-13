@@ -32,6 +32,7 @@ const SingleFriends = () => {
   const [removeFriend, { isLoading }] = useRemoveFriendMutation();
   const [addFriend] = useAddFriendMutation();
 
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const User = useSelector((state) => state.UserReducers.user);
@@ -161,8 +162,10 @@ const SingleFriends = () => {
             onClick={() => setTab("tab1")}
             className={
               tab === "tab1"
-                ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
-                : "w-[45%] bg-[white] h-[57px] flex justify-center items-center  cursor-pointer "
+                ? screenMode === "white"
+                  ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
+                  : "w-[45%] bg-[#9ce0f0] h-[57px] flex justify-center items-center  cursor-pointer "
+                : "w-[45%] bg-[white] text-black h-[57px] flex justify-center items-center  cursor-pointer "
             }
           >
             <span className="text-[20px] roboto-medium">Posts</span>
@@ -170,8 +173,10 @@ const SingleFriends = () => {
           <span
             className={
               tab === "tab2"
-                ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
-                : "w-[45%] bg-[white] h-[57px] flex justify-center items-center cursor-pointer"
+                ? screenMode === "white"
+                  ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
+                  : "w-[45%] bg-[#9ce0f0] h-[57px] flex justify-center items-center  cursor-pointer "
+                : "w-[45%] bg-[white] text-black h-[57px] flex justify-center items-center  cursor-pointer "
             }
             onClick={() => setTab("tab2")}
           >
@@ -185,7 +190,8 @@ const SingleFriends = () => {
                 {userPosts.map((feed) => (
                   <div
                     key={feed._id}
-                    className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] relative "
+                    className=" w-full md:w-[500px] feed rounded-[20px] relative "
+                    style={{ background: screenMode }}
                   >
                     <div className="flex gap-x-[15px] items-center ml-[5%] pt-[10px]">
                       {feed.authorId !== User._id && feed.authorId !== id ? (
@@ -252,7 +258,14 @@ const SingleFriends = () => {
                               className="bg-transparent border-none outline-none text-black w-[90%]"
                             />
                             <button className="w-fit h-fit bg-transparent">
-                              <BsFillSendArrowUpFill size={20} />
+                              <BsFillSendArrowUpFill
+                                size={20}
+                                className={
+                                  screenMode === "white"
+                                    ? "text-black"
+                                    : "text-black"
+                                }
+                              />
                             </button>
                           </div>
                         </form>
@@ -260,12 +273,20 @@ const SingleFriends = () => {
                           onClick={() => handleToggleLike(feed._id)}
                           className={
                             feed.likedBy.includes(User._id)
-                              ? "text-red-600 flex gap-x-[6px]"
-                              : "text-black flex gap-x-[6px]"
+                              ? screenMode === "white"
+                                ? "text-red-600 flex gap-x-[6px]"
+                                : "text-red-600 flex gap-x-[6px]"
+                              : "text-white flex gap-x-[6px]"
                           }
                         >
                           <FaHeart size={20} />
-                          <span className="text-black text-[13px]">
+                          <span
+                            className={
+                              screenMode === "white"
+                                ? "text-black text-[13px]"
+                                : "text-[13px] text-white"
+                            }
+                          >
                             {feed.likedBy.length ? feed.likedBy.length : ""}
                           </span>
                         </span>

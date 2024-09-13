@@ -3,6 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 const ActiveUsers = () => {
+    const screenMode = useSelector((state) => state.UserReducers.screenMode);
     const activeUsers = useSelector(state => state. AllUserReducer.activeUsers)
     const User = useSelector((state) => state.UserReducers.user);
     
@@ -29,16 +30,16 @@ const ActiveUsers = () => {
                       className=' border-green-600 border-[5px]'
                     />
                     </Link>
-                    <p className="roboto-bold text-[20px] text-black">
+                    <p  className={ screenMode == "white" ? "roboto-bold text-[20px] text-black" :"roboto-bold text-[20px] text-white" }>
                       {user.username}
                     </p>
                   </div>
 
-                  <span
-                    className="bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium"
-                  >
-                    Message
-                  </span>
+                  <Link to={`/user/chat/${user._id}`}>
+                      <span  className={  screenMode == "white" ? "bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium" : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium"}>
+                        Message
+                      </span>
+                    </Link>
                 </div>
               </div>
             )): <p>No Active Friends</p>}

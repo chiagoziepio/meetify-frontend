@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Button, Form, Input, message, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
@@ -8,11 +8,22 @@ import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaMeetup } from "react-icons/fa";
 import { useUserSignupMutation } from "../../Redux/Api/UserApi/UserApi";
 import Password from "antd/es/input/Password";
+import { useSelector } from "react-redux";
 const SignUp = () => {
   const [form] = Form.useForm();
   const [userSignup, { isLoading, isSuccess, isError, error }] =
     useUserSignupMutation();
   const navigate = useNavigate();
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
+  const formRef = useRef()
+    /* if(screenMode === "white"){
+      //formRef.current.classList.add("black")
+      console.log(formRef.current);
+      
+    }else{
+      //formRef.current.classList.remove("black")
+      console.log(formRef.current);
+    } */
 
   const onFinish = async (values) => {
     const credentials = {
@@ -36,7 +47,7 @@ const SignUp = () => {
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
-      <div className=" w-full md:w-[700px] bg-[rgb(255,255,255)] p-[20px] rounded-[30px]">
+      <div className=" w-full md:w-[700px] p-[20px] rounded-[30px]" style={{backgroundColor: screenMode}}>
         <div className="flex justify-around items-center mb-[20px]">
           <FaMeetup size={50} />
           <p className="roboto-medium text-[19px] font-semibold">
@@ -53,7 +64,7 @@ const SignUp = () => {
             </Link>
           </div>
           <div className=" w-full sm:w-[60%] p-[15px]">
-            <Form layout="vertical" onFinish={onFinish} form={form}>
+            <Form layout="vertical" onFinish={onFinish} form={form} className= {screenMode === "white" ? "white" : "black"}>
               <div>
                 <Form.Item
                   label="Fullname"

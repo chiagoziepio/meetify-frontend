@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Messages = () => {
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const User = useSelector((state) => state.UserReducers.user);
   let theFriends;
@@ -46,12 +47,12 @@ const Messages = () => {
                           user.online && "border-[5px] border-green-300"
                         }
                       />
-                      <p className="roboto-bold text-[20px] text-black">
+                      <p className={ screenMode == "white" ? "roboto-bold text-[20px] text-black" :"roboto-bold text-[20px] text-white" }>
                         {user.username}
                       </p>
                     </div>
                     <Link to={`/user/chat/${user._id}`}>
-                      <span className="bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium">
+                      <span  className={  screenMode == "white" ? "bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium" : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium"}>
                         Message
                       </span>
                     </Link>

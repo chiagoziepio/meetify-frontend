@@ -17,13 +17,14 @@ import { CiEdit } from "react-icons/ci";
 import UserEditDetail from "./Modal/UserEditDetail";
 
 const Dashboard = () => {
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const User = useSelector((state) => state.UserReducers.user);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
 
   const allFeeds = feeds.map((feed) => feed);
   const userPostLength = allFeeds.filter((feed) => feed.authorId === User._id);
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
   const [tab, setTab] = useState("tab1");
 
   const [userProfilePicUpload, { isLoading, isError, error }] =
@@ -64,7 +65,9 @@ const Dashboard = () => {
     <div className="flex-grow">
       <div>
         <div>
-          {isEditing && <UserEditDetail isEditing={isEditing} setIsEditing={setIsEditing}/>}
+          {isEditing && (
+            <UserEditDetail isEditing={isEditing} setIsEditing={setIsEditing} />
+          )}
           <div className="h-[200px] relative ">
             <img
               src={
@@ -118,16 +121,22 @@ const Dashboard = () => {
         </div>
         <div className="ml-[20px]">
           <div>
-            <span onClick={()=>setIsEditing(true)} className="flex items-center gap-x-[15px] roboto-medium text-[25px] mb-[10px] cursor-pointer w-fit">Detail <CiEdit size={20}/></span>
+            <span
+              onClick={() => setIsEditing(true)}
+              className="flex items-center gap-x-[15px] roboto-medium text-[25px] mb-[10px] cursor-pointer w-fit"
+            >
+              Detail <CiEdit size={20} />
+            </span>
             <h3 className=" roboto-bold text-[20px] flex gap-x-[13px] items-center">
-              < FaUserAlt  size={17}/>
+              <FaUserAlt size={17} />
               {User ? User.fullname : ""}
             </h3>
             <p className=" roboto-thin-italic text-[18px] text-gray-300 flex gap-x-[13px] items-center">
-            <FaRegUser size={15}/>
-              @{User ? User.username : ""}
+              <FaRegUser size={15} />@{User ? User.username : ""}
             </p>
-            <p className="flex gap-x-[13px] items-center"><IoMailUnreadSharp size={17}/> {User.email}</p>
+            <p className="flex gap-x-[13px] items-center">
+              <IoMailUnreadSharp size={17} /> {User.email}
+            </p>
           </div>
           <div className="flex gap-x-[12px] mt-[10px]">
             <span className="flex gap-x-[8px] items-center">
@@ -150,8 +159,10 @@ const Dashboard = () => {
               onClick={() => setTab("tab1")}
               className={
                 tab === "tab1"
-                  ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
-                  : "w-[45%] bg-[white] h-[57px] flex justify-center items-center  cursor-pointer "
+                  ? screenMode === "white"
+                    ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
+                    : "w-[45%] bg-[#9ce0f0] h-[57px] flex justify-center items-center  cursor-pointer "
+                  : "w-[45%] bg-[white] text-black h-[57px] flex justify-center items-center  cursor-pointer "
               }
             >
               <span className="text-[20px] roboto-medium">Posts</span>
@@ -159,8 +170,10 @@ const Dashboard = () => {
             <span
               className={
                 tab === "tab2"
-                  ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
-                  : "w-[45%] bg-[white] h-[57px] flex justify-center items-center cursor-pointer"
+                  ? screenMode === "white"
+                    ? "w-[45%] bg-[#9ce0f0] h-[57px] text-white flex justify-center items-center"
+                    : "w-[45%] bg-[#9ce0f0] h-[57px] flex justify-center items-center  cursor-pointer "
+                  : "w-[45%] bg-[white] text-black h-[57px] flex justify-center items-center  cursor-pointer "
               }
               onClick={() => setTab("tab2")}
             >

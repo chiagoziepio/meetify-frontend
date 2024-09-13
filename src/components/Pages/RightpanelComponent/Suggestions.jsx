@@ -5,6 +5,7 @@ import { useAddFriendMutation } from "../../../Redux/Api/UserApi/UserApi";
 import axios from "axios";
 import { Link } from "react-router-dom";
 const Suggestions = () => {
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const User = useSelector((state) => state.UserReducers.user);
   const [addFriend] = useAddFriendMutation();
@@ -41,7 +42,7 @@ const Suggestions = () => {
             {friendsToBe.length ? (
               friendsToBe.map((user) => (
                 <div key={user._id}>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between ">
                     <div className="flex gap-x-[7px] items-center">
                       <Link to ={`/user/${user._id}`} className=" cursor-pointer ">
                       <Avatar
@@ -53,14 +54,14 @@ const Suggestions = () => {
                         size={50}
                       />
                       </Link>
-                      <p className="roboto-bold text-[20px] text-black">
+                      <p className={ screenMode == "white" ? "roboto-bold text-[20px] text-black" :"roboto-bold text-[20px] text-white" }>
                         {user.username}
                       </p>
                     </div>
 
                     <span
                       onClick={() => handleAddFriend(user._id)}
-                      className="bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium"
+                      className={  screenMode == "white" ? "bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium" : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium"}
                     >
                       Follow
                     </span>

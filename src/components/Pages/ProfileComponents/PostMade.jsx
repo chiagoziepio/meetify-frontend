@@ -9,7 +9,7 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import {
   useToggleLikeMutation,
   useAddcommentMutation,
-  useDeletePostMutation
+  useDeletePostMutation,
 } from "../../../Redux/Api/FeedApi/Feedapi";
 
 const PostMade = () => {
@@ -17,12 +17,13 @@ const PostMade = () => {
   const [thePost, setThePost] = useState(null);
   const [inputValues, setInputValues] = useState({});
 
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
   const User = useSelector((state) => state.UserReducers.user);
 
   const [addcomment] = useAddcommentMutation();
   const [toggleLike] = useToggleLikeMutation();
-  const [deletePost] = useDeletePostMutation()
+  const [deletePost] = useDeletePostMutation();
 
   const allFeeds = feeds.map((feed) => feed);
   const userPost = allFeeds.filter((feed) => feed.authorId === User._id);
@@ -57,15 +58,15 @@ const PostMade = () => {
     setInputValues({});
   };
 
-  const handleDeletePost = async(id)=>{
+  const handleDeletePost = async (id) => {
     try {
-      const res = await deletePost({id}).unwrap()
-      const data = res
-      message.success(data.msg)
+      const res = await deletePost({ id }).unwrap();
+      const data = res;
+      message.success(data.msg);
     } catch (error) {
-      message.error(error.data.msg)
+      message.error(error.data.msg);
     }
-  }
+  };
   return (
     <div>
       <div className="">
@@ -77,7 +78,8 @@ const PostMade = () => {
               .map((feed) => (
                 <div
                   key={feed._id}
-                  className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] relative "
+                  className=" w-full md:w-[500px] feed rounded-[20px] relative "
+                  style={{ background: screenMode }}
                 >
                   <div className="flex items-center justify-between ml-[5%] pt-[10px]">
                     <div className="flex gap-x-[15px] items-center">
@@ -96,7 +98,7 @@ const PostMade = () => {
                     <RiDeleteBinFill
                       size={30}
                       className="text-red-700 cursor-pointer"
-                      onClick={()=>handleDeletePost(feed._id)}
+                      onClick={() => handleDeletePost(feed._id)}
                     />
                   </div>
                   <div className="p-[15px]">
@@ -136,7 +138,14 @@ const PostMade = () => {
                             className="bg-transparent border-none outline-none text-black w-[90%]"
                           />
                           <button className="w-fit h-fit bg-transparent">
-                            <BsFillSendArrowUpFill size={20} />
+                            <BsFillSendArrowUpFill
+                              size={20}
+                              className={
+                                screenMode === "white"
+                                  ? "text-black"
+                                  : "text-black"
+                              }
+                            />
                           </button>
                         </div>
                       </form>
@@ -144,12 +153,20 @@ const PostMade = () => {
                         onClick={() => handleToggleLike(feed._id)}
                         className={
                           feed.likedBy.includes(User._id)
-                            ? "text-red-600 flex gap-x-[6px]"
-                            : "text-black flex gap-x-[6px]"
+                            ? screenMode === "white"
+                              ? "text-red-600 flex gap-x-[6px]"
+                              : "text-red-600 flex gap-x-[6px]"
+                            : "text-white flex gap-x-[6px]"
                         }
                       >
                         <FaHeart size={20} />
-                        <span className="text-black text-[13px]">
+                        <span
+                          className={
+                            screenMode === "white"
+                              ? "text-black text-[13px]"
+                              : "text-[13px] text-white"
+                          }
+                        >
                           {feed.likedBy.length ? feed.likedBy.length : ""}
                         </span>
                       </span>

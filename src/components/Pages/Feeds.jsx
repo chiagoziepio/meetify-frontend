@@ -25,6 +25,7 @@ const Feeds = () => {
   const [isViewingComment, setIsViewingComment] = useState(false);
   const [thePost, setThePost] = useState(null);
 
+  const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const User = useSelector((state) => state.UserReducers.user);
   const feeds = useSelector((state) => state.FeedReducers.feeds);
   const feedSize = useSelector((state) => state.FeedReducers.feedSize);
@@ -212,11 +213,12 @@ const Feeds = () => {
             <h3 className="roboto-bold text-[22px] ml-[20px]">Feeds</h3>
             <div className="mt-[10px] ">
               {state ? (
-                <div className="flex flex-col justify-center items-center gap-y-[20px]">
+                <div className="flex flex-col md:justify-center md:items-center gap-y-[20px]">
                   {thePostToBeShown.map((feed) => (
                     <div
                       key={feed._id}
-                      className="bg-white w-[350px] md:w-[500px] feed rounded-[20px] relative "
+                      className=" w-full md:w-[500px] feed rounded-[20px] relative "
+                      style={{background: screenMode}}
                     >
                       <div className="flex gap-x-[15px] items-center ml-[5%] pt-[10px]">
                         {feed.authorId !== User._id ? (
@@ -283,7 +285,7 @@ const Feeds = () => {
                                 className="bg-transparent border-none outline-none text-black w-[90%]"
                               />
                               <button className="w-fit h-fit bg-transparent">
-                                <BsFillSendArrowUpFill size={20} />
+                                <BsFillSendArrowUpFill size={20} className={screenMode === "white" ? "text-black" : "text-black"}  />
                               </button>
                             </div>
                           </form>
@@ -291,12 +293,12 @@ const Feeds = () => {
                             onClick={() => handleToggleLike(feed._id)}
                             className={
                               feed.likedBy.includes(User._id)
-                                ? "text-red-600 flex gap-x-[6px]"
-                                : "text-black flex gap-x-[6px]"
+                                ? screenMode === "white" ? "text-red-600 flex gap-x-[6px]" : "text-red-600 flex gap-x-[6px]"
+                                : "text-white flex gap-x-[6px]"
                             }
                           >
-                            <FaHeart size={20} />
-                            <span className="text-black text-[13px]">
+                            <FaHeart size={20}   />
+                            <span className= {  screenMode === "white" ? "text-black text-[13px]" : "text-[13px] text-white"}>
                               {feed.likedBy.length ? feed.likedBy.length : ""}
                             </span>
                           </span>
