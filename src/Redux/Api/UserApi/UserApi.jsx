@@ -67,6 +67,12 @@ export const UserApi = createApi({
         method: "POST",
       }),
     }),
+    userDeleteAcc: builder.mutation({
+      query: () => ({
+        url: "user/deleteaccount",
+        method: "POST",
+      }),
+    }),
     userEditDetails: builder.mutation({
       query: (values) => ({
         url: "user/edituser",
@@ -103,5 +109,6 @@ export const {
   useRemoveFriendMutation,
   useGetActiveUserQuery,
   useUserEditDetailsMutation,
-  useUserResetPwdMutation
+  useUserResetPwdMutation,
+  useUserDeleteAccMutation
 } = UserApi;

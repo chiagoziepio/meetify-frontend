@@ -127,6 +127,12 @@ const UserSlice = createSlice({
             state.token = action.payload.token,
             Cookies.set("token",JSON.stringify(state.token), {expires: 1/24})
         })
+        builder.addMatcher(UserApi.endpoints.userDeleteAcc.matchFulfilled, (state,action)=>{
+            state.status = 'successful'
+            state.token = null,
+            state.user = null,
+            Cookies.set("token",JSON.stringify(state.token))
+        })
     }
 })
 

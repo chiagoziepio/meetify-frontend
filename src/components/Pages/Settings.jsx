@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { useUserLogoutMutation,  useUserResetPwdMutation } from "../../Redux/Api/UserApi/UserApi";
+import {
+  useUserLogoutMutation,
+  useUserResetPwdMutation,
+  useUserDeleteAccMutation,
+} from "../../Redux/Api/UserApi/UserApi";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, message, Modal } from "antd";
 import { MdOutlineKey } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { IoMoonOutline } from "react-icons/io5";
@@ -14,7 +18,8 @@ import {
 } from "../../Redux/Features/UserSlice/UserSlice";
 const Settings = () => {
   const [userLogout] = useUserLogoutMutation();
-  const [userResetPwd] =  useUserResetPwdMutation()
+  const [userResetPwd] = useUserResetPwdMutation();
+  const [userDeleteAcc] = useUserDeleteAccMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,16 +45,37 @@ const Settings = () => {
   const HandleScreenModeToWhite = () => {
     dispatch(changeToWhite());
   };
-const onFinish = async(values)=>{
+  const onFinish = async (values) => {
     try {
-      const res = await userResetPwd(values).unwrap()
-      const data = res
-      message.success(data.msg)
+      const res = await userResetPwd(values).unwrap();
+      const data = res;
+      message.success(data.msg);
     } catch (error) {
-      message.success(error.data.msg)
+      message.success(error.data.msg);
     }
-}
+  };
 
+  const handleDeletAcc = async () => {
+    Modal.confirm({
+      title: "Are you sure you want to delete your accout",
+      content: (
+        <div>
+          <strong>your account will be gone parmanently</strong>.
+        </div>
+      ),
+      okText: "Confirm",
+      cancelText: "Cancel",
+      onOk() {
+        userDeleteAcc()
+          .unwrap()
+          .then((result) => {
+            message.success(result.msg);
+            navigate("/register");
+          })
+          .catch((error) => message.error(error.data.msg));
+      },
+    });
+  };
   return (
     <div className="flex-grow">
       <div className="mt-[40px]">
@@ -102,7 +128,10 @@ const onFinish = async(values)=>{
             <LuLogOut size={25} />
             Logout
           </p>
-          <p className=" flex gap-x-[10px] hover:text-red-600 transition duration-300 ease-in cursor-pointer">
+          <p
+            onClick={handleDeletAcc}
+            className=" flex gap-x-[10px] hover:text-red-600 transition duration-300 ease-in cursor-pointer"
+          >
             <FcDeleteDatabase size={25} /> Delete your account
           </p>
         </div>
