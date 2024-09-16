@@ -8,6 +8,7 @@ import {useGetActiveUserQuery} from "../Redux/Api/UserApi/UserApi"
 import {updateUser} from "../Redux/Features/AllUserSlice/allUserSlice"
 import axios from "axios"
 import Cookies from "js-cookie"
+import IconNavbar from './Pages/components/IconNavbar'
 
 const Layout = () => {
   
@@ -56,9 +57,13 @@ const Layout = () => {
   },[])
   return (
     <main className='flex gap-x-3 w-full'>
+      <IconNavbar/>
+    <div className='flex gap-x-3 w-full'>
         <Sidebar/>
         <Outlet/>
         <RightPanel/>
+    </div>
+
     </main>
   )
 }

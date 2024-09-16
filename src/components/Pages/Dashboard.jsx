@@ -182,7 +182,7 @@ const Dashboard = () => {
               </span>{" "}
             </span>
           </div>
-          <div className="mt-[15px]">
+          <div className="mt-[15px] px-[10px]">
             {tab === "tab1" && <PostMade />}
             {tab === "tab2" && <LikedPost />}
           </div>
