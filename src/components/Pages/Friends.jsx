@@ -29,9 +29,9 @@ const Friends = () => {
     }
   };
 
-  const searchResult = theFriends.filter((user) =>
+  const searchResult = theFriends ? theFriends.filter((user) =>
     user.username.toLowerCase().includes(search.toLocaleLowerCase())
-  );
+  ): ""
 
   return (
     <div className="flex-grow p-[30px]">

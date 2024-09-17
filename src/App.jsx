@@ -19,6 +19,7 @@ import { getAllUsersAtInterval } from"./Redux/Features/AllUserSlice/allUserSlice
 import AddFriends from './components/Pages/AddFriends'
 import ForgotPwd from './components/Pages/ForgotPwd'
 import OutsidePwdReset from './components/Pages/OutsidePwdReset'
+import AdminPanel from './components/Pages/AdminPanel'
 
 function App() {
   const {data} = useGetAllUserQuery()
@@ -64,6 +65,7 @@ function App() {
           <Route path='/user/:id' element={<SingleFriends/>}/>
           <Route path='/user/chat/:userId' element={<ChatPage/>}/>
           <Route path = "/user/addfriends" element= {<AddFriends/>}/>
+          <Route path= "/user/admin" element = {<AdminPanel/>}/>
         </Route>
       </Routes>
       

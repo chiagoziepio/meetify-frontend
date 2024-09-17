@@ -133,7 +133,7 @@ const Feeds = () => {
 
   let thePostToBeShown;
   let state = false;
-  if (feeds.length && User.friends.length && allUsers) {
+  if (feeds.length && allUsers) {
     const friendsId = User.friends.map((id) => id);
     const AllUsers = allUsers.map((user) => user);
     const friends = AllUsers.filter((user) => friendsId.includes(user._id));
@@ -150,7 +150,7 @@ const Feeds = () => {
       message.success(`${feedSize} new added`);
     }
   }
-
+  
   return (
     <div className="flex-grow mt-[30px]">
       <div className="px-[10px]">

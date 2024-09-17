@@ -7,6 +7,7 @@ import { ImFilePicture } from "react-icons/im";
 import { IoSettings } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { PiDoorOpenBold } from "react-icons/pi";
 export const Links = [
   {
     label: "New Feeds",
@@ -46,10 +47,26 @@ export const Links = [
   },
 ];
 const Navbar = () => {
+  const User = useSelector((state) => state.UserReducers.user);
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   return (
     <div>
       <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[150px] w-[200px]">
+        {User.role === "admin" && <div  className="w-[70%]">
+          <NavLink
+              to={"/user/admin"}
+              className={({ isActive }) =>
+                isActive
+                  ? screenMode === "white"
+                    ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                    : "bg-white text-black roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                  : "  flex gap-2 roboto-medium text-[18px]"
+              }
+            >
+              <span><PiDoorOpenBold size={20}/></span>
+              <p>Admin</p>
+            </NavLink>
+          </div>}
         {Links.map((link) => (
           <div key={link.id} className="w-[70%]">
             <NavLink
