@@ -15,8 +15,8 @@ const SignUp = () => {
     useUserSignupMutation();
   const navigate = useNavigate();
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
-  const formRef = useRef()
-    /* if(screenMode === "white"){
+  const formRef = useRef();
+  /* if(screenMode === "white"){
       //formRef.current.classList.add("black")
       console.log(formRef.current);
       
@@ -36,18 +36,21 @@ const SignUp = () => {
     await userSignup(credentials)
       .unwrap()
       .then((result) => {
-        message.success(result.msg)
-        form.resetFields()
-        navigate("/")
-      }).catch(error => {
-        message.error(error.data.msg)
-        //console.log(error.data.msg);
-        
+        message.success(result.msg);
+        form.resetFields();
+        navigate("/");
       })
+      .catch((error) => {
+        message.error(error.data.msg);
+        //console.log(error.data.msg);
+      });
   };
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
-      <div className=" w-full md:w-[700px] p-[20px] rounded-[30px]" style={{backgroundColor: screenMode}}>
+      <div
+        className=" w-full md:w-[700px] p-[20px] rounded-[30px]"
+        style={{ backgroundColor: screenMode }}
+      >
         <div className="flex justify-around items-center mb-[20px]">
           <FaMeetup size={50} />
           <p className="roboto-medium text-[19px] font-semibold">
@@ -64,7 +67,12 @@ const SignUp = () => {
             </Link>
           </div>
           <div className=" w-full sm:w-[60%] p-[15px]">
-            <Form layout="vertical" onFinish={onFinish} form={form} className= {screenMode === "white" ? "white" : "black"}>
+            <Form
+              layout="vertical"
+              onFinish={onFinish}
+              form={form}
+              className={screenMode === "white" ? "white" : "black"}
+            >
               <div>
                 <Form.Item
                   label="Fullname"
@@ -105,11 +113,16 @@ const SignUp = () => {
                   name={"email"}
                   rules={[
                     {
+                      type: "email",
+                      message: "Please enter a valid email address!",
+                    },
+                    {
                       required: true,
                     },
                   ]}
                 >
                   <Input
+                    type="email"
                     className="w-full h-[44px]"
                     placeholder="email"
                     prefix={<IoMailOpen />}
@@ -178,7 +191,20 @@ const SignUp = () => {
               </div>
               <div className="flex justify-center items-center">
                 <Form.Item>
-                  <Button htmlType="submit" className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white">{isLoading ?<p> siginning in<Spin/></p>: "SignUp" }</Button>
+                  <Button
+                    htmlType="submit"
+                    className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white"
+                  >
+                    {isLoading ? (
+                      <p>
+                        {" "}
+                        siginning in
+                        <Spin />
+                      </p>
+                    ) : (
+                      "SignUp"
+                    )}
+                  </Button>
                 </Form.Item>
               </div>
             </Form>

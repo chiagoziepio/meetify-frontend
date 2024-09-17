@@ -16,6 +16,9 @@ import ChatPage from './components/Pages/ChatPage'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { getAllUsersAtInterval } from"./Redux/Features/AllUserSlice/allUserSlice";
+import AddFriends from './components/Pages/AddFriends'
+import ForgotPwd from './components/Pages/ForgotPwd'
+import OutsidePwdReset from './components/Pages/OutsidePwdReset'
 
 function App() {
   const {data} = useGetAllUserQuery()
@@ -48,6 +51,8 @@ function App() {
       <Routes>
         <Route index element = {<SignIn/>}/>
         <Route path='/register' element={<SignUp/>}/>
+        <Route path = "/forgotpassword" element = {<ForgotPwd/>}/>
+        <Route path = "/forgotpassword/:resetToken" element = {<OutsidePwdReset/>}/>
         <Route path='/user' element = {<Layout/>}>
           <Route path='/user/feeds' element={<Feeds/>}/>
           <Route path='/user/setting' element ={<Settings/>}/>
@@ -58,6 +63,7 @@ function App() {
           <Route path='/user/messages' element={<Messages/>}/>
           <Route path='/user/:id' element={<SingleFriends/>}/>
           <Route path='/user/chat/:userId' element={<ChatPage/>}/>
+          <Route path = "/user/addfriends" element= {<AddFriends/>}/>
         </Route>
       </Routes>
       

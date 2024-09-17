@@ -91,7 +91,7 @@ const Suggestions = () => {
                           size={50}
                         />
                         </Link>
-                        <p className="roboto-bold text-[20px] text-black">
+                        <p className={ screenMode == "white" ? "roboto-bold text-[20px] text-black" :"roboto-bold text-[20px] text-white" }>
                           {user.username}
                         </p>
                       </div>

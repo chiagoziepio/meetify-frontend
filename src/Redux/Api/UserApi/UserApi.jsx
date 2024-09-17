@@ -77,23 +77,36 @@ export const UserApi = createApi({
       query: (values) => ({
         url: "user/edituser",
         method: "POST",
-        body: values
+        body: values,
       }),
     }),
     userResetPwd: builder.mutation({
       query: (values) => ({
         url: "user/resetpassword",
         method: "POST",
-        body: values
+        body: values,
       }),
     }),
-
+    userForgotPwd: builder.mutation({
+      query: (values) => ({
+        url: "user/forgotpassword",
+        method: "POST",
+        body: values,
+      }),
+    }),
+    PwdResetOutside: builder.mutation({
+      query: ({ resetToken, data }) => ({
+        url: `user/forgotpassword/${resetToken}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getAllUser: builder.query({
       query: () => "user/getallUser",
     }),
     getActiveUser: builder.query({
       query: () => "user/getactiveusers",
-      pollingInterval: 600000
+      pollingInterval: 600000,
     }),
   }),
 });
@@ -110,5 +123,7 @@ export const {
   useGetActiveUserQuery,
   useUserEditDetailsMutation,
   useUserResetPwdMutation,
-  useUserDeleteAccMutation
+  useUserDeleteAccMutation,
+  usePwdResetOutsideMutation,
+  useUserForgotPwdMutation,
 } = UserApi;

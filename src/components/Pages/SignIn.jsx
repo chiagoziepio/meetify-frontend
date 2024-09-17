@@ -75,6 +75,10 @@ const SignIn = () => {
                 </Form.Item>
               </div>
             </Form>
+            <div className="mt-[10px] ml-[50%] text-[#9ce0f0]">
+ 
+              <Link to={"/forgotpassword"} className="text-nowrap">forgotten Password</Link>
+            </div>
           </div>
         </div>
       </div>

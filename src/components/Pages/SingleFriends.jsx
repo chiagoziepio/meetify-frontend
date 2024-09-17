@@ -94,11 +94,8 @@ const SingleFriends = () => {
       <div>
         <div className="flex flex-col justify-center ">
           {theUser.map((user) => (
-            <div>
-              <div
-                key={user._id}
-                className="w-full flex justify-center h-[200px] md:h-[300px]"
-              >
+            <div key={user._id}>
+              <div className="w-full flex justify-center h-[200px] md:h-[300px]">
                 <Avatar
                   size={400}
                   className="avatar"
@@ -119,41 +116,56 @@ const SingleFriends = () => {
                   className=" mt-[250px] ml-[-80px] z-[2] avatar2"
                 />
               </div>
-              <div className="  mt-[100px] ml-[15px] flex justify-evenly md:justify-between">
-                <div>
-                  <h3 className="roboto-bold text-[20px]">{user.username}</h3>
-                  <div className="flex gap-x-[15px]">
-                    <span className="flex gap-x-[10px] items-center">
-                      <SiBuzzfeed size={16} /> {userPosts.length}{" "}
-                      {userPosts.length > 1 ? "posts" : "post"}
-                    </span>
-                    <span className="flex gap-x-[10px]  items-center">
-                      <IoIosPeople size={16} /> {user.friends.length}{" "}
-                      {user.friends.length > 1 ? "followers" : "follower"}
-                    </span>
+              <div className="ml-[15px]">
+                <div className="  mt-[100px]  flex justify-evenly md:justify-between">
+                  <div>
+                    <h3 className="roboto-bold text-[20px]">{user.username}</h3>
+                    <div className="flex gap-x-[15px]">
+                      <span className="flex gap-x-[10px] items-center">
+                        <SiBuzzfeed size={16} /> {userPosts.length}{" "}
+                        {userPosts.length > 1 ? "posts" : "post"}
+                      </span>
+                      <span className="flex gap-x-[10px]  items-center">
+                        <IoIosPeople size={16} /> {user.friends.length}{" "}
+                        {user.friends.length > 1 ? "followers" : "follower"}
+                      </span>
+                    </div>
                   </div>
+                  <span className="bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium">
+                    {User.friends.includes(user._id) ? (
+                      <span
+                        onClick={() => {
+                          handleRemoveFriend(user._id);
+                          setUserTab(user._id);
+                        }}
+                      >
+                        {" "}
+                        {isLoading ? (
+                          <Spin indicator={<ImSpinner3 />} spinning />
+                        ) : (
+                          "Unfollow"
+                        )}
+                      </span>
+                    ) : (
+                      <span onClick={() => handleAddFriend(user._id)}>
+                        follow
+                      </span>
+                    )}
+                  </span>
                 </div>
-                <span className="bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium">
-                  {User.friends.includes(user._id) ? (
+                {User.friends.includes(user._id) && (
+                  <Link to={`/user/chat/${user._id}`} className="mt-[10px]">
                     <span
-                      onClick={() => {
-                        handleRemoveFriend(user._id);
-                        setUserTab(user._id);
-                      }}
+                      className={
+                        screenMode == "white"
+                          ? "bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium"
+                          : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium"
+                      }
                     >
-                      {" "}
-                      {isLoading ? (
-                        <Spin indicator={<ImSpinner3 />} spinning />
-                      ) : (
-                        "Unfollow"
-                      )}
+                      Message
                     </span>
-                  ) : (
-                    <span onClick={() => handleAddFriend(user._id)}>
-                      follow
-                    </span>
-                  )}
-                </span>
+                  </Link>
+                )}
               </div>
             </div>
           ))}
