@@ -21,9 +21,9 @@ import ForgotPwd from './components/Pages/ForgotPwd'
 import OutsidePwdReset from './components/Pages/OutsidePwdReset'
 import AdminPanel from './components/Pages/AdminPanel'
 import AdminCreateUser from './components/Pages/AdminComponents/AdminCreateUser'
-
+import Loader from './components/Loader'
 function App() {
-  const {data} = useGetAllUserQuery()
+  const {data, isLoading, isError} = useGetAllUserQuery()
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const dispatch = useDispatch();
 
@@ -47,6 +47,10 @@ function App() {
     const interval = setInterval(fetchAllUsers, 180000);
   
   }, []);
+
+  if(isLoading || isError){
+    return <Loader/>
+  }
   
   return (
     <div className={screenMode === "white" ? "flex-grow flex text-black" : "flex-grow flex text-white bg-[#000000d5]"}>
