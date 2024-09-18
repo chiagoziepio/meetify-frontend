@@ -69,7 +69,7 @@ const IconNavbar = () => {
         >
           {isIconShowong && (
             <div className="flex gap-x-[15px] w-full h-full">
-              {User.role === "admin" && (
+              {User.role === "admin"  || User.role === "super-admin" && (
                 <NavLink
                   to={"/user/admin"}
                   onClick={() => setIsIconShowing(false)}

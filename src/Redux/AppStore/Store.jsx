@@ -18,7 +18,7 @@ import {
   const authPersistConfig = {
     key: "user",
     storage,
-    whitelist: ['user',"screenMode"]
+    whitelist: ['user',"screenMode","token"]
   };
   const authPersitConfigFeed = {
     key: "feeds",

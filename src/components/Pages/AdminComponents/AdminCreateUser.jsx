@@ -1,30 +1,20 @@
 import React, { useRef } from "react";
-import { Button, Form, Input, message, Spin } from "antd";
+import { Button, Form, Input, message, Select, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
 import { IoMailOpen } from "react-icons/io5";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaMeetup } from "react-icons/fa";
-import { useUserSignupMutation } from "../../Redux/Api/UserApi/UserApi";
-import Password from "antd/es/input/Password";
+import { useAdminCreateUserMutation } from "../../../Redux/Api/UserApi/UserApi";
 import { useSelector } from "react-redux";
-const SignUp = () => {
+
+const AdminCreateUser = () => {
   const [form] = Form.useForm();
-  const [userSignup, { isLoading, isSuccess, isError, error }] =
-    useUserSignupMutation();
+  const [adminCreateUser, { isLoading, isSuccess, isError, error }] =
+    useAdminCreateUserMutation();
   const navigate = useNavigate();
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
-  const formRef = useRef();
-  /* if(screenMode === "white"){
-      //formRef.current.classList.add("black")
-      console.log(formRef.current);
-      
-    }else{
-      //formRef.current.classList.remove("black")
-      console.log(formRef.current);
-    } */
-
   const onFinish = async (values) => {
     const credentials = {
       fullname: values.fullname,
@@ -32,41 +22,32 @@ const SignUp = () => {
       password: values.password,
       email: values.email,
       phone_number: values.phone_number,
+      role: values.role,
     };
-    await userSignup(credentials)
+    await adminCreateUser(credentials)
       .unwrap()
       .then((result) => {
         message.success(result.msg);
         form.resetFields();
-        navigate("/");
       })
       .catch((error) => {
         message.error(error.data.msg);
         //console.log(error.data.msg);
       });
   };
+
   return (
     <div className="flex-grow flex justify-center items-center w-full ">
       <div
-        className=" w-full md:w-[700px] p-[20px] rounded-[30px]"
+        className=" w-full  md:w-[500px] p-[20px] rounded-[30px]"
         style={{ backgroundColor: screenMode }}
       >
         <div className="flex justify-around items-center mb-[20px]">
           <FaMeetup size={50} />
-          <p className="roboto-medium text-[19px] font-semibold">
-            Get an account
-          </p>
+          <p className="roboto-medium text-[19px] font-semibold">Create User</p>
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap w-full">
-          <div className="bg-[#9ce0f0] w-full sm:w-[40%] min-w-[250px] flex flex-col gap-y-[30px] justify-center items-center rounded-[20px]">
-            <h3 className="roboto-bold text-[white] text-[20px] md:text-[2.1rem] text-center">
-              Has an Account?
-            </h3>
-            <Link to="/" className="hover:underline text-[19px]">
-              Sign in
-            </Link>
-          </div>
-          <div className=" w-full sm:w-[60%] p-[15px]">
+        <div className="flex w-full">
+          <div className=" w-full p-[15px]">
             <Form
               layout="vertical"
               onFinish={onFinish}
@@ -129,8 +110,24 @@ const SignUp = () => {
                   />
                 </Form.Item>
               </div>
-              <div className="flex gap-[24px]  w-full">
-                <div className="w-[50%] min-w-[150px]">
+              <div>
+                <Form.Item
+                  label="Roles"
+                  name={"role"}
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Select placeholder="select role" className="w-full h-[44px]">
+                    <Select.Option value="admin">Admin</Select.Option>
+                    <Select.Option value="user">User</Select.Option>
+                  </Select>
+                </Form.Item>
+              </div>
+              <div className="flex gap-[24px] w-full">
+                <div className="w-[50%]">
                   <Form.Item
                     label="Password"
                     name={"password"}
@@ -146,7 +143,7 @@ const SignUp = () => {
                     />
                   </Form.Item>
                 </div>
-                <div className="w-[50%] min-w-[150px]">
+                <div className="w-[50%]">
                   <Form.Item
                     label="confirm Password"
                     name={"cpwd"}
@@ -164,6 +161,7 @@ const SignUp = () => {
                         },
                       }),
                     ]}
+                    hasFeedback
                   >
                     <Input.Password
                       className="w-full h-[44px]"
@@ -193,16 +191,16 @@ const SignUp = () => {
                 <Form.Item>
                   <Button
                     htmlType="submit"
-                    className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white"
+                    className="w-[8rem] h-[46px] rounded-[10px] bg-[#9ce0f0] text-white "
                   >
                     {isLoading ? (
-                      <p>
+                      <p className="text-[17px]">
                         {" "}
-                        siginning in
+                        creating
                         <Spin />
                       </p>
                     ) : (
-                      "SignUp"
+                      <p className="text-[19px]">Create</p>
                     )}
                   </Button>
                 </Form.Item>
@@ -215,4 +213,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AdminCreateUser;

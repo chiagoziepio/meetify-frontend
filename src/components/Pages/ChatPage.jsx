@@ -129,7 +129,7 @@ const fetchMessages = async (userId) => {
   };
 
   return (
-    <div className="flex-grow h-full">
+    <div className="flex-grow h-full px-[20px]">
       <div className="h-full relative">
         {findUser && (
           <div className="h-[97vh] flex flex-col justify-between relative">
@@ -203,8 +203,9 @@ const fetchMessages = async (userId) => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a message..."
-                className="w-[90%] bg-transparent h-[44px] border-none outline-none"
+                disabled = {!findUser.online}
+                placeholder= {findUser.online ? "Type message here" : "wait till user is online"}
+                className="w-[90%] bg-transparent h-[44px] border-none outline-none text-black"
               />
               <button type="submit">
                 <BsFillSendArrowUpFill size={30}  className={screenMode === "white" ? "text-black" : "text-black"} />

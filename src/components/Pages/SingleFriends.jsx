@@ -117,9 +117,11 @@ const SingleFriends = () => {
                 />
               </div>
               <div className="ml-[15px]">
-                <div className="  mt-[100px]  flex justify-evenly md:justify-between">
+                <div className="  mt-[100px]  flex justify-evenly md:justify-between mb-[20px]">
                   <div>
                     <h3 className="roboto-bold text-[20px]">{user.username}</h3>
+                    {user.role === "admin" && <p>Manager</p>}
+                    {user.role === "super-admin" &&  <p>Founder</p>}
                     <div className="flex gap-x-[15px]">
                       <span className="flex gap-x-[10px] items-center">
                         <SiBuzzfeed size={16} /> {userPosts.length}{" "}
@@ -154,12 +156,12 @@ const SingleFriends = () => {
                   </span>
                 </div>
                 {User.friends.includes(user._id) && (
-                  <Link to={`/user/chat/${user._id}`} className="mt-[10px]">
+                  <Link to={`/user/chat/${user._id}`} className="">
                     <span
                       className={
                         screenMode == "white"
                           ? "bg-black w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-white text-[18px] roboto-medium"
-                          : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium"
+                          : "bg-[#ffffffcd] w-fit p-[7px] rounded-[8px] h-[40px] cursor-pointer text-black text-[18px] roboto-medium "
                       }
                     >
                       Message

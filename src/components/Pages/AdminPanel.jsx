@@ -1,7 +1,7 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import WeeklySignUpsChart from "./AdminComponents/WeeklySignups";
 import AllUsers from "./AdminComponents/AllUsers";
 import AllPost from "./AdminComponents/AllPost";
@@ -13,7 +13,7 @@ const AdminPanel = () => {
   const [tab, setTab] = useState("tab1");
   const navigate = useNavigate();
   useEffect(() => {
-    if (User.role !== "admin") {
+    if (User.role === "user") {
       navigate("/");
       message.error("not authorized");
       return;
@@ -22,14 +22,22 @@ const AdminPanel = () => {
   return (
     <div className="flex-grow">
       <div className="mt-[40px] px-[15px]">
-        <h3 className="roboto-bold text-[20px]">Admin control room</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="roboto-bold text-[20px]">Admin control room</h3>
+          <Link
+            to="/user/admin/create"
+            className="mt-[10px] roboto-bold text-[20px]  bg-[#9ce0f0] rounded-[10px] p-[7px] w-fit"
+          >
+            Create A User
+          </Link>
+        </div>
         <div className="mt-[40px]">
           <div className="flex flex-wrap md:flex-nowrap ">
             <div className="w-[50%] min-w-[300px]">
               <h4 className="text-center">Weekly sign Chart</h4>
               <WeeklySignUpsChart />
             </div>
-            <div  className="w-[50%] min-w-[300px]">
+            <div className="w-[50%] min-w-[300px]">
               <h4 className="text-center">Weekly Post</h4>
               <WeeklyPostUploadsChart />
             </div>

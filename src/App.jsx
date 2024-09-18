@@ -20,6 +20,7 @@ import AddFriends from './components/Pages/AddFriends'
 import ForgotPwd from './components/Pages/ForgotPwd'
 import OutsidePwdReset from './components/Pages/OutsidePwdReset'
 import AdminPanel from './components/Pages/AdminPanel'
+import AdminCreateUser from './components/Pages/AdminComponents/AdminCreateUser'
 
 function App() {
   const {data} = useGetAllUserQuery()
@@ -66,6 +67,7 @@ function App() {
           <Route path='/user/chat/:userId' element={<ChatPage/>}/>
           <Route path = "/user/addfriends" element= {<AddFriends/>}/>
           <Route path= "/user/admin" element = {<AdminPanel/>}/>
+          <Route path= "/user/admin/create" element = {<AdminCreateUser/>}/>
         </Route>
       </Routes>
       

@@ -52,7 +52,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[150px] w-[200px]">
-        {User.role === "admin" && <div  className="w-[70%]">
+        {User.role === "admin"  && <div  className="w-[70%]">
           <NavLink
               to={"/user/admin"}
               className={({ isActive }) =>
@@ -65,6 +65,21 @@ const Navbar = () => {
             >
               <span><PiDoorOpenBold size={20}/></span>
               <p>Admin</p>
+            </NavLink>
+          </div>}
+        {User.role === "super-admin"  && <div  className="w-[70%]">
+          <NavLink
+              to={"/user/admin"}
+              className={({ isActive }) =>
+                isActive
+                  ? screenMode === "white"
+                    ? "bg-black text-white roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                    : "bg-white text-black roboto-medium text-[18px] flex gap-2 h-[44px] rounded-[20px] items-center p-[6px]"
+                  : "  flex gap-2 roboto-medium text-[18px]"
+              }
+            >
+              <span><PiDoorOpenBold size={20}/></span>
+              <p>Founder</p>
             </NavLink>
           </div>}
         {Links.map((link) => (

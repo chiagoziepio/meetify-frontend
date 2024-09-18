@@ -26,6 +26,13 @@ export const UserApi = createApi({
         body: values,
       }),
     }),
+    adminCreateUser: builder.mutation({
+      query: (values) => ({
+        url: "admin/create",
+        method: "POST",
+        body: values,
+      }),
+    }),
     userSignin: builder.mutation({
       query: (values) => ({
         url: "user/login",
@@ -126,4 +133,5 @@ export const {
   useUserDeleteAccMutation,
   usePwdResetOutsideMutation,
   useUserForgotPwdMutation,
+  useAdminCreateUserMutation
 } = UserApi;

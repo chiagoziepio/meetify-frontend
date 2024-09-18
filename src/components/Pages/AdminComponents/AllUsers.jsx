@@ -49,7 +49,7 @@ const AllUsers = () => {
     <div>
       <div>
         {allUsers
-          .filter((user) => user._id !== User._id)
+          .filter((user) => user._id !== User._id && user.role !== "super-admin")
           .map((user) => {
             const signUpDate = new Date(user.signUpDate);
             const year = signUpDate.getFullYear();
