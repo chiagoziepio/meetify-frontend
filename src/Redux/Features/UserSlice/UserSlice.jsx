@@ -131,6 +131,7 @@ const UserSlice = createSlice({
             state.status = 'successful'
             state.token = null,
             state.user = null,
+            state.screenMode = "white",
             Cookies.set("token",JSON.stringify(state.token))
         })
     }

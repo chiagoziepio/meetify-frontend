@@ -34,7 +34,7 @@ const Friends = () => {
   ): ""
 
   return (
-    <div className="flex-grow p-[30px]">
+    <div className="flex-grow p-[30px] h-full">
       <div>
         <div className="flex flex-wrap justify-center gap-[30px]">
           <input

@@ -1,6 +1,6 @@
 import { Avatar, message } from "antd";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -11,6 +11,7 @@ import {
   useToggleLikeMutation,
   useAddcommentMutation,
 } from "../../../Redux/Api/FeedApi/Feedapi";
+import {addminUpdateFeed} from "../../../Redux/Features/FeedsSlice/FeedSlice"
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -23,6 +24,7 @@ const AllPost = () => {
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const User = useSelector((state) => state.UserReducers.user);
 
+  const dispatch = useDispatch()
   const [toggleLike] = useToggleLikeMutation();
   const [addcomment] = useAddcommentMutation();
 
@@ -44,6 +46,7 @@ const AllPost = () => {
         }
       );
       const data = res.data
+      dispatch(addminUpdateFeed(data.feeds))
       message.success(data.msg)
     } catch (error) {
         message.error(error.response.data.msg)

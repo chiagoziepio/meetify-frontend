@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAddFriendMutation } from "../../Redux/Api/UserApi/UserApi";
 import { ImSpinner3 } from "react-icons/im";
 import { Link } from "react-router-dom";
-import { Avatar } from "antd";
+import { Avatar, message } from "antd";
 
 const AddFriends = () => {
   const [search, setSearch] = useState("");
@@ -12,11 +12,11 @@ const AddFriends = () => {
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const User = useSelector((state) => state.UserReducers.user);
-  const [addFriend] = useAddFriendMutation();
+  const [addFriend , {isLoading}] = useAddFriendMutation();
 
   let friendsToBe;
   let state = false;
-  if (User.friends.length && allUsers) {
+  if (allUsers) {
     const mappedUserFriendsId = User.friends.map((id) => id);
 
     const SuggestedFriends = allUsers.filter(
@@ -26,9 +26,9 @@ const AddFriends = () => {
     friendsToBe = theFriends;
     state = true;
   }
-  const searchResult = friendsToBe.filter((user) =>
+  const searchResult = friendsToBe ? friendsToBe.filter((user) =>
     user.username.toLowerCase().includes(search.toLocaleLowerCase())
-  );
+  ): ""
 
   const handleAddFriend = async (id) => {
     try {
@@ -40,7 +40,7 @@ const AddFriends = () => {
     }
   };
   return (
-    <div className="flex-grow p-[20px]">
+    <div className="flex-grow p-[20px] h-full">
       <div>
         <h3>Add Friends</h3>
         <div className="mb-[20px]">
@@ -182,7 +182,11 @@ const AddFriends = () => {
                                 size={50}
                               />
                             </Link>
-                            <p className="roboto-bold text-[20px] text-black">
+                            <p  className={
+                              screenMode == "white"
+                                ? "roboto-bold text-[20px] text-black"
+                                : "roboto-bold text-[20px] text-white"
+                            }>
                               {user.username}
                             </p>
                           </div>

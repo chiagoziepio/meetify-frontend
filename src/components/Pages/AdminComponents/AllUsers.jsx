@@ -1,13 +1,50 @@
-import { Avatar } from "antd";
+import { Avatar, message, Modal } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
+import axios from "axios";
+import { adminUpdateUsers} from "../../../Redux/Features/AllUserSlice/allUserSlice"
+import Cookies from "js-cookie";
 
 const AllUsers = () => {
   const allUsers = useSelector((state) => state.AllUserReducer.allUsers);
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   const User = useSelector((state) => state.UserReducers.user);
+
+  const getToken = () => {
+    const token = Cookies.get("token");
+    return token ? JSON.parse(token) : null;
+  };
+  const dispatch = useDispatch();
+
+  const deleteUser = async (id) => {
+    const token = getToken();
+    if (token === null) return message.error("no token  available");
+    Modal.confirm({
+      title: "Are you sure you want to delete this account",
+      okText: "Confirm",
+      cancelText: "Cancel",
+      onOk() {
+        axios
+          .post(
+            "http://localhost:3000/api/admin/deleteuser",
+            { id },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((result) => {
+            message.success(result.data.msg);
+            dispatch(adminUpdateUsers(result.data.users))
+          })
+          .catch((error) => message.error(error.response.data.msg));
+      },
+    });
+  };
+
   return (
     <div>
       <div>
@@ -19,9 +56,15 @@ const AllUsers = () => {
             const month = signUpDate.getMonth() + 1;
             const day = signUpDate.getDate();
             return (
-              <div key={user._id} className="my-[10px] flex  justify-between items-center px-[15px]">
+              <div
+                key={user._id}
+                className="my-[10px] flex  justify-between items-center px-[15px]"
+              >
                 <div className="flex gap-x-[10px]">
-                  <Link to={`/user/${user._id}`} className=" cursor-pointer relative">
+                  <Link
+                    to={`/user/${user._id}`}
+                    className=" cursor-pointer relative"
+                  >
                     <Avatar
                       src={
                         user.profilePic
@@ -30,7 +73,9 @@ const AllUsers = () => {
                       }
                       size={50}
                     />
-                    {user.online === true && <p className="w-[40] h-[40] rounded-[50%] right-[2%] top-[10%] text-green-600"></p>}
+                    {user.online === true && (
+                      <p className="w-[40] h-[40] rounded-[50%] right-[2%] top-[10%] text-green-600"></p>
+                    )}
                   </Link>
                   <p
                     className={
@@ -43,10 +88,14 @@ const AllUsers = () => {
                   </p>
                 </div>
                 <p>
-                 {year}-{month}-{day}
+                  {year}-{month}-{day}
                 </p>
-                
-                <MdDeleteForever size={24} className="cursor-pointer hover:text-red-600"/>
+
+                <MdDeleteForever
+                  size={24}
+                  onClick={()=> deleteUser(user._id)}
+                  className="cursor-pointer hover:text-red-600"
+                />
               </div>
             );
           })}

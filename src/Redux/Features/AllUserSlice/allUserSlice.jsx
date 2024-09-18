@@ -15,6 +15,9 @@ const allUserSlice = createSlice({
         getAllUsersAtInterval : (state,action)=>{
             state.status = "success"
             state.allUsers = action.payload
+        },
+        adminUpdateUsers : (state,action)=>{
+            state.allUsers = action.payload
         }
     },
     extraReducers: (builder)=>{
@@ -34,5 +37,5 @@ const allUserSlice = createSlice({
     }
 })
 
-export const {updateUser ,  getAllUsersAtInterval} = allUserSlice.actions
+export const {updateUser ,  getAllUsersAtInterval,  adminUpdateUsers} = allUserSlice.actions
 export default  allUserSlice.reducer

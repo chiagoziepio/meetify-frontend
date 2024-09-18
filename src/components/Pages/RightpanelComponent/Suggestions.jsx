@@ -19,7 +19,7 @@ const Suggestions = () => {
       (user) => !mappedUserFriendsId.includes(user._id)
     );
     const theFriends = SuggestedFriends.filter((user) => user._id !== User._id);
-    friendsToBe = theFriends;
+    friendsToBe = theFriends.slice(0,4);
     state = true;
   }
 

@@ -1,4 +1,4 @@
-import { Avatar, Upload } from "antd";
+import { Avatar, message, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useUserProfilePicUploadMutation,
@@ -40,9 +40,10 @@ const Dashboard = () => {
 
     try {
       const res = await userProfilePicUpload(formData).unwrap();
-      console.log(res);
+      const data = res;
+      message.success(data.msg);
     } catch (error) {
-      console.log(error);
+      message.error(error.data.msg);
     }
   };
 
@@ -55,9 +56,10 @@ const Dashboard = () => {
 
     try {
       const res = await userBackgroundPicUpload(formData).unwrap();
-      console.log(res);
+      const data = res;
+      message.success(data.msg);
     } catch (error) {
-      console.log(error);
+      message.error(error.data.msg);
     }
   };
 

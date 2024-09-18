@@ -26,6 +26,11 @@ const FeedSlice = createSlice({
             state.loading = false,
             state.status = "successfull",
             state.feeds = action.payload
+        },
+        addminUpdateFeed : (state, action)=>{
+            state.loading = false,
+            state.status = "successfull",
+            state.feeds = action.payload
         }
     },
     extraReducers : (builder)=> {
@@ -102,6 +107,6 @@ const FeedSlice = createSlice({
     }
 })
 
-export const {updateFeeds} = FeedSlice.actions
+export const {updateFeeds, addminUpdateFeed} = FeedSlice.actions
 
 export default FeedSlice.reducer
