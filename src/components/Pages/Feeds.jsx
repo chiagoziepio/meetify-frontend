@@ -150,7 +150,7 @@ const Feeds = () => {
       message.success(`${feedSize} new added`);
     }
   }
-  
+
   return (
     <div className="flex-grow mt-[30px]">
       <div className="px-[10px]">
@@ -302,13 +302,13 @@ const Feeds = () => {
                             onClick={() => handleToggleLike(feed._id)}
                             className={
                               feed.likedBy.includes(User._id)
-                                ? screenMode === "white"
-                                  ? "text-red-600 flex gap-x-[6px]"
-                                  : "text-red-600 flex gap-x-[6px]"
-                                : "text-white flex gap-x-[6px]"
+                                ? "text-red-600 flex gap-x-[6px] cursor-pointer" 
+                                : screenMode === "white"
+                                ? "text-[black] flex gap-x-[6px] cursor-pointer" 
+                                : "text-white flex gap-x-[6px] cursor-pointer" 
                             }
                           >
-                            <FaHeart size={20} />
+                            <FaHeart size={20} className="cursor-pointer" />
                             <span
                               className={
                                 screenMode === "white"

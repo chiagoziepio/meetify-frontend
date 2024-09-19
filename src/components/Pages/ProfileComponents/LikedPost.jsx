@@ -150,11 +150,11 @@ const LikedPost = () => {
                         onClick={() => handleToggleLike(feed._id)}
                         className={
                           feed.likedBy.includes(User._id)
-                            ? screenMode === "white"
-                              ? "text-red-600 flex gap-x-[6px]"
-                              : "text-red-600 flex gap-x-[6px]"
-                            : "text-white flex gap-x-[6px]"
-                        }
+                                ? "text-red-600 flex gap-x-[6px] cursor-pointer" 
+                                : screenMode === "white"
+                                ? "text-[black] flex gap-x-[6px] cursor-pointer" 
+                                : "text-white flex gap-x-[6px] cursor-pointer" 
+                            }
                       >
                         <FaHeart size={20} />
                         <span

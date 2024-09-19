@@ -5,7 +5,7 @@ function WeeklyPostUploadsChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://meetify-backend.vercel.app/api/api/admin/weeklyPost')
+    fetch('https://meetify-backend.vercel.app/api/admin/weeklyPost')
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
