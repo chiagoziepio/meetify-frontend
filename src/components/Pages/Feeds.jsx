@@ -258,13 +258,16 @@ const Feeds = () => {
                         ) : (
                           ""
                         )}
+
                         {feed.postImage ? (
                           <div className="h-[300px]">
-                            <img
-                              src={feed.postImage}
-                              alt=""
-                              className="w-full h-full"
-                            />
+                            <a href={feed.postImage}>
+                              <img
+                                src={feed.postImage}
+                                alt=""
+                                className="w-full h-full"
+                              />
+                            </a>
                           </div>
                         ) : (
                           ""
@@ -302,10 +305,10 @@ const Feeds = () => {
                             onClick={() => handleToggleLike(feed._id)}
                             className={
                               feed.likedBy.includes(User._id)
-                                ? "text-red-600 flex gap-x-[6px] cursor-pointer" 
+                                ? "text-red-600 flex gap-x-[6px] cursor-pointer"
                                 : screenMode === "white"
-                                ? "text-[black] flex gap-x-[6px] cursor-pointer" 
-                                : "text-white flex gap-x-[6px] cursor-pointer" 
+                                ? "text-[black] flex gap-x-[6px] cursor-pointer"
+                                : "text-white flex gap-x-[6px] cursor-pointer"
                             }
                           >
                             <FaHeart size={20} className="cursor-pointer" />
