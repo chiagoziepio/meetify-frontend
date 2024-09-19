@@ -9,7 +9,7 @@ import { CgDanger } from "react-icons/cg";
 import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 
-const SOCKET_SERVER_URL = "http://localhost:3000";
+const SOCKET_SERVER_URL = "https://meetify-backend.vercel.app";
 let socket;
 
 const ChatPage = () => {
@@ -28,7 +28,7 @@ const ChatPage = () => {
   // Function to fetch messages
 const fetchMessages = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/message/${userId}`);
+    const response = await axios.get(`https://meetify-backend.vercel.app/api/message/${userId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching messages:', error);

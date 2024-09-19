@@ -28,7 +28,7 @@ const AllUsers = () => {
       onOk() {
         axios
           .post(
-            "http://localhost:3000/api/admin/deleteuser",
+            "https://meetify-backend.vercel.app/api/admin/deleteuser",
             { id },
             {
               headers: {

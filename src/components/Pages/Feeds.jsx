@@ -50,7 +50,7 @@ const Feeds = () => {
     if (token) {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/feeds/getfeeds",
+          "https://meetify-backend.vercel.app/api/feeds/getfeeds",
           {
             headers: {
               Authorization: `Bearer ${token}`,

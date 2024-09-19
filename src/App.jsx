@@ -31,7 +31,7 @@ function App() {
 
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/user/getallUser"
+          "https://meetify-backend.vercel.app/api/user/getallUser"
         );
         const data = res;
         dispatch(getAllUsersAtInterval(data.data.msg));

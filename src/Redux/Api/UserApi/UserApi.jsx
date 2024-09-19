@@ -9,7 +9,7 @@ const getToken = () => {
 export const UserApi = createApi({
   reducerPath: "UserApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/",
+    baseUrl: "https://meetify-backend.vercel.app/api/",
     prepareHeaders: (headers) => {
       const token = getToken();
       if (token) {

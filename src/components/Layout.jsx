@@ -9,6 +9,7 @@ import {updateUser} from "../Redux/Features/AllUserSlice/allUserSlice"
 import axios from "axios"
 import Cookies from "js-cookie"
 import IconNavbar from './Pages/components/IconNavbar'
+import { message } from 'antd'
 
 const Layout = () => {
   
@@ -28,7 +29,7 @@ const Layout = () => {
     if (token) {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/user/getactiveusers",
+          "https://meetify-backend.vercel.app/api/user/getactiveusers",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -42,6 +43,9 @@ const Layout = () => {
       }
     }
   };
+
+
+
   useEffect(()=>{
     fetchActiveUser()
     const intervalId = setInterval(fetchActiveUser, 10 * 60 * 1000); 
@@ -50,6 +54,10 @@ const Layout = () => {
     return () => clearInterval(intervalId);
   },[])
   useEffect(()=>{
+    const token = getToken()
+    if(!token) {
+      message.warning("your access token has expired")
+    }
       if(User === null){
         navigate("/")
         return

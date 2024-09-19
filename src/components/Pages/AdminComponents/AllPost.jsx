@@ -37,7 +37,7 @@ const AllPost = () => {
     if (!token) return message.error("no active token");
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/admin/deletepost",
+        "https://meetify-backend.vercel.app/api/admin/deletepost",
         { id },
         {
           headers: {

@@ -6,7 +6,7 @@ function WeeklySignUpsChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/admin/weeklysignup')
+    fetch('https://meetify-backend.vercel.app/api/admin/weeklysignup')
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
