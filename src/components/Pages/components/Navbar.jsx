@@ -51,7 +51,7 @@ const Navbar = () => {
   const screenMode = useSelector((state) => state.UserReducers.screenMode);
   return (
     <div>
-      <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[150px] w-[200px]">
+      <div className="flex flex-col gap-y-[20px] items-center fixed bottom-[30px] w-[200px]">
         {User.role === "admin"  && <div  className="w-[70%]">
           <NavLink
               to={"/user/admin"}
